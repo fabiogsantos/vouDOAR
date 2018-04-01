@@ -1,0 +1,66 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="br.com.tcc.tecdam.voudoar.campanha.CampanhaTipoFragment">
+
+    <!--
+    private Integer tipo;               // Causa de interesse da campanha: 0 - Outros, 1 - Capacitação Profissional, 2 - Cultura e Arte, 3 - Defesa dos Direitos Humanos, 4 - Educação, 5 - Esportes, 6 - Meio Ambiente e Proteção dos Animais, 7 - Saúde, 8 - Serviços Sociais
+    private String  imagem;             // Logotipo
+    private Color   corFundo;           // Cor de Fundo
+    private Date    dataInicio;         // Data de Início da Campanha
+    private Date    dataFinal;          // Data Final da Campanha
+    private String  objetivo;           // Sobre nós (Motivação e Objetivos)
+    private String  atividades;         // ações realizadas na campanha
+    private String  sobreProblema;      // Sobre o problema que a campanha pretende atacar
+    private String  sobreSolucao;       // Sobre a solução proposta para atacar o problema
+    private String  publicoAlvo;        // Quais pessoas deseja atender
+    private String  ufAtuacao;          // Estado de atuação da campanha;
+    private String  cidadeAtuacao;      // Cidade de atuação da campanha;
+    -->
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/campanha_tipo_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Qual a  o tipo de sua campanha:"
+            android:layout_marginTop="60dp"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorTextQuestion"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+        <!--https://github.com/ganfra/MaterialSpinner
+            https://www.youtube.com/watch?v=V7YzlwGsK9A -->
+        <!--
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/campanha_tipo_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:ms_multiline="false"
+            app:ms_enableFloatingLabel="false"
+            app:ms_enableErrorLabel="true"
+            app:ms_hint="Ex: Serviços Sociais"
+            app:ms_errorColor="@style/error_appearance"
+            app:ms_thickness="2dp"
+            app:ms_arrowSize="16dp"
+            app:ms_alignLabels="false" />
+        -->
+
+        <Spinner
+            android:id="@+id/campanha_tipo_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+</FrameLayout>

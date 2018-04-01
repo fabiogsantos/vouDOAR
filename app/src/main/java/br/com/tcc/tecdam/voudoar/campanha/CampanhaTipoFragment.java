@@ -1,0 +1,70 @@
+package br.com.tcc.tecdam.voudoar.campanha;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import br.com.tcc.tecdam.voudoar.R;
+
+public class CampanhaTipoFragment extends Fragment {
+
+    Spinner campanha_tipo_spinner;
+    ArrayAdapter<String> adapter;
+
+    String[] ITEMS = {"Tipo da Campanha",
+                      "Capacitação Profissional",
+                      "Cultura e Arte",
+                      "Defesa dos Direitos Humanos",
+                      "Educação",
+                      "Esportes",
+                      "Meio Ambiente e Proteção dos Animais",
+                      "Saúde",
+                      "Serviços Sociais",
+                      "Outros" };
+
+    public CampanhaTipoFragment() {
+        // Required empty public constructor
+    }
+
+    public static CampanhaTipoFragment newInstance(String param1, String param2) {
+        CampanhaTipoFragment fragment = new CampanhaTipoFragment();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, ITEMS);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_campanha_tipo, container, false);
+
+        campanha_tipo_spinner = (Spinner) view.findViewById(R.id.campanha_tipo_spinner);
+        campanha_tipo_spinner.setAdapter(adapter);
+
+        // Inflate the layout for this fragment
+        return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+}
