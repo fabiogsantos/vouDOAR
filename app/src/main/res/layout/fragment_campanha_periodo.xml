@@ -1,8 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="br.com.tcc.tecdam.voudoar.campanha.CampanhaPeriodoFragment">
+    android:layout_height="wrap_content"
+    tools:context="br.com.tcc.tecdam.voudoar.campanha.CampanhaPeriodoFragment"
+    android:padding="16dp">
 
     <!--
     private Integer tipo;               // Causa de interesse da campanha: 0 - Outros, 1 - Capacitação Profissional, 2 - Cultura e Arte, 3 - Defesa dos Direitos Humanos, 4 - Educação, 5 - Esportes, 6 - Meio Ambiente e Proteção dos Animais, 7 - Saúde, 8 - Serviços Sociais
@@ -23,53 +24,81 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/campanha_periodo_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Quando a campanha iniciará?"
-            android:layout_marginTop="60dp"
+            android:text="Qual a data inicial da campanha?"
             android:fontFamily="sans-serif"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/colorTextQuestion"
             android:textAlignment="center"
             android:gravity="center"/>
+
         <DatePicker
             android:id="@+id/campanha_periodo_datepicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:datePickerMode="spinner"
             android:calendarViewShown="false"
             android:spinnersShown="true" />
-        <!--
-        <DateTimeView
-            android:id="@+id/campanha_periodo_datafinal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:padding="10dp"
-            android:layout_gravity="center"
-            android:text="Data final da campanha"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/colorTextQuestion"
-            android:textSize="16sp"
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#90909090"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
             />
-          -->
-        <EditText
-            android:id="@+id/campanha_periodo_datafinal"
-            android:layout_width="wrap_content"
+
+        <RelativeLayout
+            android:id="@+id/campanha_periodo_groupdatafinal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:padding="10dp"
-            android:layout_gravity="center"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/colorTextQuestion"
-            android:textSize="16sp"
-            android:clickable="false"
-            android:hint="Data final da campanha"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/campanha_periodo_textdatafinal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:fontFamily="sans-serif"
+                android:text="Data final da campanha"
+                android:textSize="16sp"
+                android:enabled="false"/>
+
+            <TextView
+                android:id="@+id/campanha_periodo_valordatafinal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/campanha_periodo_textdatafinal"
+                android:layout_below="@id/campanha_periodo_textdatafinal"
+                android:fontFamily="sans-serif"
+                android:textSize="14sp"
+                android:text=""
+                android:enabled="false" />
+
+            <Switch
+                android:id="@+id/campanha_periodo_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:checked="false"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#90909090"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
 
     </android.support.v7.widget.LinearLayoutCompat>
 

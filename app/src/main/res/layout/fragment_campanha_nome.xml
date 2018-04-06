@@ -1,9 +1,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="br.com.tcc.tecdam.voudoar.campanha.CampanhaNomeFragment">
+    tools:context="br.com.tcc.tecdam.voudoar.campanha.CampanhaNomeFragment"
+    android:padding="16dp">
 
     <!--
     private Integer tipo;               // Causa de interesse da campanha: 0 - Outros, 1 - Capacitação Profissional, 2 - Cultura e Arte, 3 - Defesa dos Direitos Humanos, 4 - Educação, 5 - Esportes, 6 - Meio Ambiente e Proteção dos Animais, 7 - Saúde, 8 - Serviços Sociais
@@ -29,7 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Qual é o nome de sua campanha?"
-            android:layout_marginTop="60dp"
             android:fontFamily="sans-serif"
             android:textStyle="bold"
             android:textSize="20sp"
@@ -40,14 +40,13 @@
             android:id="@+id/campanha_nome_textinput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             app:errorEnabled="true"
             app:errorTextAppearance="@style/error_appearance">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/campanha_nome_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:hint="Ex: Campanha do Quilo"
                 android:inputType="textPersonName"/>
         </android.support.design.widget.TextInputLayout>

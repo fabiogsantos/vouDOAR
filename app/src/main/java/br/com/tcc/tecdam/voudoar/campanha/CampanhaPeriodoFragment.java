@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,8 +24,14 @@ import br.com.tcc.tecdam.voudoar.R;
  */
 public class CampanhaPeriodoFragment extends Fragment {
 
-    EditText edittext;
     Calendar myCalendar = Calendar.getInstance();
+    DatePicker datePickerDataInicial;
+    DatePickerDialog.OnDateSetListener listenerDate;
+
+    RelativeLayout groupDataFinal;
+    Switch switchDataFinal;
+    TextView textDataFinal;
+    TextView valorDataFinal;
 
     public CampanhaPeriodoFragment() {
         // Required empty public constructor
@@ -40,7 +48,7 @@ public class CampanhaPeriodoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_campanha_periodo, container, false);
 
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+        listenerDate = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
@@ -51,24 +59,69 @@ public class CampanhaPeriodoFragment extends Fragment {
             }
         };
 
-        edittext = (EditText) view.findViewById(R.id.campanha_periodo_datafinal);
+        datePickerDataInicial = (DatePicker) view.findViewById(R.id.campanha_periodo_datepicker);
 
-        edittext.setOnClickListener(new View.OnClickListener() {
+        //final Long DEFAULT_MIN_DATE = datePickerDataInicial.getMinDate();
+        final Long DEFAULT_MAX_DATE = datePickerDataInicial.getMaxDate();
+
+        groupDataFinal = (RelativeLayout) view.findViewById(R.id.campanha_periodo_groupdatafinal);
+        textDataFinal   = (TextView) view.findViewById(R.id.campanha_periodo_textdatafinal);
+        valorDataFinal  = (TextView) view.findViewById(R.id.campanha_periodo_valordatafinal);
+        switchDataFinal     = (Switch) view.findViewById(R.id.campanha_periodo_switch);
+
+        groupDataFinal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog( getContext(), date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                ShowDatePickerDialog();
+            }
+        });
+
+        switchDataFinal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (switchDataFinal.isChecked()) {
+                    textDataFinal.setEnabled(true);
+                    valorDataFinal.setEnabled(true);
+
+                    ShowDatePickerDialog();
+
+                } else {
+                    textDataFinal.setEnabled(false);
+                    valorDataFinal.setEnabled(false);
+                    valorDataFinal.setText("");
+                    myCalendar.setTime(Calendar.getInstance().getTime());
+                    datePickerDataInicial.setMaxDate(DEFAULT_MAX_DATE);
+                }
             }
         });
 
         return view;
     }
 
-    private void updateLabel() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+    private void ShowDatePickerDialog() {
 
-        edittext.setText(sdf.format(myCalendar.getTime()));
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), listenerDate, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+
+        //datePickerDataInicial.getDayOfMonth()
+        Calendar converDatePicker = java.util.Calendar.getInstance();
+                    converDatePicker.set(
+                            datePickerDataInicial.getYear(),
+                            datePickerDataInicial.getMonth(),
+                            datePickerDataInicial.getDayOfMonth());
+                    datePickerDialog.getDatePicker().
+
+        setMinDate(converDatePicker.getTimeInMillis());
+                    datePickerDialog.show();
+
+   }
+
+    private void updateLabel() {
+        final Locale localeBrasil = new Locale("pt", "BR");
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, localeBrasil);
+        valorDataFinal.setText(sdf.format(myCalendar.getTime()));
+        datePickerDataInicial.setMaxDate(myCalendar.getTimeInMillis());
     }
 }
