@@ -8,11 +8,32 @@
     tools:context="br.com.tcc.tecdam.voudoar.campanha.CampanhaActivity"
     tools:showIn="@layout/activity_campanha">
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <SeekBar
+        android:id="@+id/seekBar"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="227dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:focusable="false"
+        android:max="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/campanha_button_avancar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar">
 
         <fragment
             android:id="@+id/fragment"
@@ -21,19 +42,24 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
 
-        <Button
-            android:id="@+id/campanha_button_avancar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Avançar"
-            android:textAllCaps="false"
-            android:fontFamily="sans-serif"
-            android:layout_marginTop="60dp"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/colorTextButton"/>
+    </ScrollView>
 
-    </android.support.v7.widget.LinearLayoutCompat>
+    <Button
+        android:id="@+id/campanha_button_avancar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/colorPrimary"
+        android:fontFamily="sans-serif"
+        android:text="Avançar"
+        android:textAllCaps="false"
+        android:textColor="@color/colorTextButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
 
