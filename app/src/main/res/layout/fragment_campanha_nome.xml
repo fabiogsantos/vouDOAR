@@ -21,7 +21,7 @@
     private String  cidadeAtuacao;      // Cidade de atuação da campanha;
     -->
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -50,6 +50,6 @@
                 android:hint="Ex: Campanha do Quilo"
                 android:inputType="textPersonName"/>
         </android.support.design.widget.TextInputLayout>
-    </android.support.v7.widget.LinearLayoutCompat>
+    </LinearLayout>
 
 </FrameLayout>

@@ -16,7 +16,7 @@ public class CampanhaTipoFragment extends Fragment {
     Spinner campanha_tipo_spinner;
     ArrayAdapter<String> adapter;
 
-    String[] ITEMS = {"Tipo da Campanha",
+    String[] ITEMS = {"Escolha o Tipo",
                       "Capacitação Profissional",
                       "Cultura e Arte",
                       "Defesa dos Direitos Humanos",
@@ -27,11 +27,7 @@ public class CampanhaTipoFragment extends Fragment {
                       "Serviços Sociais",
                       "Outros" };
 
-    public CampanhaTipoFragment() {
-        // Required empty public constructor
-    }
-
-    public static CampanhaTipoFragment newInstance(String param1, String param2) {
+    public static CampanhaTipoFragment newInstance() {
         CampanhaTipoFragment fragment = new CampanhaTipoFragment();
         return fragment;
     }

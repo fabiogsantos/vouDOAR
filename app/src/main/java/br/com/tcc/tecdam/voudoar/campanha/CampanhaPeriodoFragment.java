@@ -33,8 +33,9 @@ public class CampanhaPeriodoFragment extends Fragment {
     TextView textDataFinal;
     TextView valorDataFinal;
 
-    public CampanhaPeriodoFragment() {
-        // Required empty public constructor
+    public static CampanhaPeriodoFragment newInstance() {
+        CampanhaPeriodoFragment fragment = new CampanhaPeriodoFragment();
+        return fragment;
     }
 
     @Override

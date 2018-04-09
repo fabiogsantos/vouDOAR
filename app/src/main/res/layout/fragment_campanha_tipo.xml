@@ -21,7 +21,7 @@
     private String  cidadeAtuacao;      // Cidade de atuação da campanha;
     -->
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -57,9 +57,10 @@
 
         <Spinner
             android:id="@+id/campanha_tipo_spinner"
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp" />
-    </android.support.v7.widget.LinearLayoutCompat>
+    </LinearLayout>
 
 </FrameLayout>
