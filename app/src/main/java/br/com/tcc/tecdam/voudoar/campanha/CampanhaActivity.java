@@ -1,6 +1,6 @@
 package br.com.tcc.tecdam.voudoar.campanha;
 
-import android.content.res.Resources;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,17 +14,28 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import br.com.tcc.tecdam.voudoar.R;
+import br.com.tcc.tecdam.voudoar.dao.VouDoarDAO;
+import br.com.tcc.tecdam.voudoar.domain.Campanha;
 
-public class CampanhaActivity extends AppCompatActivity {
+public class CampanhaActivity extends AppCompatActivity
+        implements CampanhaPeriodoFragment.OnFragmentInteraction,
+        CampanhaTipoFragment.OnFragmentInteraction {
+
+    public static final String INTENT_KEY_CAMPANHA = "Campanha";
+    public static final String INTENT_KEY_ID_CAMPANHA = Campanha.COLUMN_ID;
+
+    private CampanhaHelper campanhaHelper;
+    private Campanha campanha;
 
     private FragmentManager fragmentManager;
     private List<Integer> listFragments = Arrays.asList(R.layout.fragment_campanha_tipo,
-                                                        R.layout.fragment_campanha_nome,
-                                                        R.layout.fragment_campanha_sobre,
-                                                        R.layout.fragment_campanha_periodo);
+            R.layout.fragment_campanha_nome,
+            R.layout.fragment_campanha_sobre,
+            R.layout.fragment_campanha_periodo);
     private int itemListCurrentFragment = 0;
     private int idCurrentFragment;
     private Fragment currentFlagment;
@@ -39,9 +50,43 @@ public class CampanhaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campanha);
 
+        if (campanhaHelper == null) {
+            campanhaHelper = new CampanhaHelper(this);
+        }
+
+        InicializaControles();
+        InicializaDados();
+    }
+
+    private void InicializaDados() {
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            campanha = extras.getParcelable(INTENT_KEY_CAMPANHA);
+            if (campanha == null) {
+                Long id = intent.getLongExtra(INTENT_KEY_ID_CAMPANHA, 0);
+                // Informado um id ja cadastrado
+                if (id != 0) {
+                    VouDoarDAO db = new VouDoarDAO(this);
+                    campanha = db.buscaCampanha(id);
+                    db.close();
+                    if (campanha == null) {
+                        Toast.makeText(this, "Campanha com " + Campanha.COLUMN_ID + " " + id + " não encontrado!", Toast.LENGTH_SHORT);
+                        finish();
+                    }
+                    // Cria nova campanha
+                } else {
+                    campanha = new Campanha();
+                }
+            }
+        }
+    }
+
+    private void InicializaControles() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Configuração para que o teclado seja apresentado sob o layout se desalinha-lo
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         idCurrentFragment = listFragments.get(itemListCurrentFragment);
@@ -95,8 +140,16 @@ public class CampanhaActivity extends AppCompatActivity {
     }
 
     private void ConfirmaDados() {
-        Toast.makeText(this,"Campanha confirmada!",Toast.LENGTH_SHORT).show();
-        finish();
+        Campanha campanha = campanhaHelper.getCampanha();
+        if (campanha != null) {
+            VouDoarDAO db = new VouDoarDAO(this);
+            Long id = db.insereCampanha(campanha);
+            db.close();
+            Toast.makeText(this, "Campanha confirmada! ("+Campanha.COLUMN_ID+" "+id+")", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Toast.makeText(this, "A campanha não foi informada complemtamente!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void AtualizaTela() {
@@ -132,7 +185,7 @@ public class CampanhaActivity extends AppCompatActivity {
         FragmentTransaction tx = fragmentManager.beginTransaction();
         tx.replace(R.id.campanha_frame,currentFlagment);
         tx.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        tx.addToBackStack(null);
+        //tx.addToBackStack(null);
         tx.commit();
 
         passosTela.setProgress(itemListCurrentFragment);
@@ -194,4 +247,24 @@ public class CampanhaActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void setDataInicial(Calendar data) {
+        if (campanha != null) {
+            campanha.setDataInicio(data.getTime());
+        }
+    }
+
+    @Override
+    public void setDataFinal(Calendar data) {
+        if (campanha != null) {
+            campanha.setDataFinal(data.getTime());
+        }
+    }
+
+    @Override
+    public void pegaDados() {
+        if (campanha != null) {
+            campanhaHelper.mostraCampanha(campanha);
+        }
+    }
 }

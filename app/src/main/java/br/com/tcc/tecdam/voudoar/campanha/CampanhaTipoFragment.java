@@ -13,6 +13,8 @@ import br.com.tcc.tecdam.voudoar.R;
 
 public class CampanhaTipoFragment extends Fragment {
 
+    private OnFragmentInteraction fragmentInteraction;
+
     Spinner campanha_tipo_spinner;
     ArrayAdapter<String> adapter;
 
@@ -54,13 +56,30 @@ public class CampanhaTipoFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        fragmentInteraction.pegaDados();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof OnFragmentInteraction) {
+            fragmentInteraction = (OnFragmentInteraction) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " necessário implementar CampanhaTipoFragment.OnFragmentInteraction");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        fragmentInteraction = null;
+    }
+
+    public interface OnFragmentInteraction {
+        void pegaDados();
     }
 
 }

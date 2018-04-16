@@ -18,7 +18,7 @@
     private String  sobreSolucao;       // Sobre a solução proposta para atacar o problema
     private String  publicoAlvo;        // Quais pessoas deseja atender
     private String  ufAtuacao;          // Estado de atuação da campanha;
-    private String  cidadeAtuacao;      // Cidade de atuação da campanha;
+    private StriareaAtuacaoacao;      // Cidade de atuação da campanha;
     -->
 
     <LinearLayout
@@ -45,6 +45,13 @@
                 android:inputType="textMultiLine"/>
         </android.support.design.widget.TextInputLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#90909090"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,6 +70,13 @@
                 android:focusable="true"
                 android:inputType="textMultiLine"/>
         </android.support.design.widget.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#90909090"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

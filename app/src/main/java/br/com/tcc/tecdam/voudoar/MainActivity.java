@@ -14,7 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Date;
+
 import br.com.tcc.tecdam.voudoar.campanha.CampanhaActivity;
+import br.com.tcc.tecdam.voudoar.domain.Campanha;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,8 +33,15 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(MainActivity.this, CampanhaActivity.class);
+                //intent.putExtra(CampanhaActivity.INTENT_KEY_ID_CAMPANHA,1);
+                Campanha campanha = new Campanha(0, 7, "RIC 2018", "",
+                        new Date(2018, 9, 01), new Date(2018, 12, 25),
+                        "Distribuição de cestas básicas natalinas para famílias carentes previamente cadastradas.",
+                        "Arrecadação de Alimentos em pontos de coletas e no porta a porta, montagem das cestas e entrega das Cestas as famílias!",
+                        "", "PE", "Paudalho, Carpina e Recife", "", "", "", "");
+                intent.putExtra(CampanhaActivity.INTENT_KEY_CAMPANHA,campanha);
+                startActivity(intent);
             }
         });
 
@@ -84,8 +94,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_campanhas_sociais) {
-            Intent intent = new Intent(this, CampanhaActivity.class);
-            startActivity(intent);
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
