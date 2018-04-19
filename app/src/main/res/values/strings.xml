@@ -14,4 +14,5 @@
     <string name="botao_avancar">Avançar</string>
     <string name="botao_voltar">Voltar</string>
     <string name="botao_confirmar">Confirmar</string>
+    <string name="aviso_implementar_campanhamvp_viewresource">, necessário implementar CampanhaMVP.ViewResource</string>
 </resources>

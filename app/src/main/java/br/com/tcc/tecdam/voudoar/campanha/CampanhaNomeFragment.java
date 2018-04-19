@@ -1,16 +1,13 @@
 package br.com.tcc.tecdam.voudoar.campanha;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import br.com.tcc.tecdam.voudoar.R;
 
-public class CampanhaNomeFragment extends Fragment {
+public class CampanhaNomeFragment extends CampanhaFragment {
 
     public static CampanhaNomeFragment newInstance() {
         CampanhaNomeFragment fragment = new CampanhaNomeFragment();
@@ -27,15 +24,5 @@ public class CampanhaNomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_campanha_nome, container, false);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 }

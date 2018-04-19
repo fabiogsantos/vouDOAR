@@ -11,9 +11,7 @@ import android.widget.Spinner;
 
 import br.com.tcc.tecdam.voudoar.R;
 
-public class CampanhaTipoFragment extends Fragment {
-
-    private OnFragmentInteraction fragmentInteraction;
+public class CampanhaTipoFragment extends CampanhaFragment {
 
     Spinner campanha_tipo_spinner;
     ArrayAdapter<String> adapter;
@@ -54,32 +52,4 @@ public class CampanhaTipoFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        fragmentInteraction.pegaDados();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteraction) {
-            fragmentInteraction = (OnFragmentInteraction) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " necessário implementar CampanhaTipoFragment.OnFragmentInteraction");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        fragmentInteraction = null;
-    }
-
-    public interface OnFragmentInteraction {
-        void pegaDados();
-    }
-
 }

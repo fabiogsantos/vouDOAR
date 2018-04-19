@@ -3,11 +3,15 @@ package br.com.tcc.tecdam.voudoar.campanha;
 import android.support.design.widget.TextInputEditText;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 import br.com.tcc.tecdam.voudoar.R;
 import br.com.tcc.tecdam.voudoar.domain.Campanha;
+import br.com.tcc.tecdam.voudoar.util.DataUtil;
 
 /**
  * Created by fabio.goncalves on 09/04/2018.
@@ -20,7 +24,8 @@ public class CampanhaHelper {
     private TextInputEditText campoTitulo;
     private Spinner campoTipo;
     private DatePicker campoDataInicio;
-    private Calendar campoDataFinal;
+    private TextView campoDataFinal;
+    private Switch campoUsaDataFinal;
     private TextInputEditText campoObjetivo;
     private TextInputEditText campoAtividades;
     //private TextInputEditText campoSobreProblema;
@@ -63,7 +68,11 @@ public class CampanhaHelper {
         }
 
         if (campoDataFinal != null) {
-            campanha.setDataFinal(campoDataFinal.getTime());
+            if (campoUsaDataFinal.isChecked()) {
+                campanha.setDataFinal(DataUtil.toDate(campoDataFinal.getText().toString()));
+            } else {
+                campanha.setDataFinal(null);
+            }
         }
 
         if (campoObjetivo != null) {
@@ -90,7 +99,8 @@ public class CampanhaHelper {
         campoTitulo          = campanhaActivity.findViewById(R.id.campanha_nome_edit);
         campoTipo            = campanhaActivity.findViewById(R.id.campanha_tipo_spinner);
         campoDataInicio      = campanhaActivity.findViewById(R.id.campanha_periodo_datepicker);
-        //campoDataFinal       = campanhaActivity.getDataFinalCalendar();
+        campoDataFinal       = campanhaActivity.findViewById(R.id.campanha_periodo_valordatafinal);
+        campoUsaDataFinal    = campanhaActivity.findViewById(R.id.campanha_periodo_switch);
         campoObjetivo        = campanhaActivity.findViewById(R.id.campanha_sobre_edit_objetivo);
         campoAtividades      = campanhaActivity.findViewById(R.id.campanha_sobre_edit_atividades);
         //campoSobreProblema = campanhaActivity.findViewById(R.id.campanha_sobre_edit_sobreproblema);
@@ -118,22 +128,26 @@ public class CampanhaHelper {
         //campanha.setCorFundo(campoCorFundo);
 
         if (campoDataInicio != null) {
-            campoDataInicio.updateDate(campanha.getDataFinal().getYear(),
-                    campanha.getDataFinal().getMonth(),
-                    campanha.getDataFinal().getDay());
+            campoDataInicio.updateDate(campanha.getDataInicio().getYear(),
+                    campanha.getDataInicio().getMonth(),
+                    campanha.getDataInicio().getDay());
         }
 
         if (campoDataFinal != null) {
-            campoDataFinal.set(campanha.getDataFinal().getYear(),
-                    campanha.getDataFinal().getMonth(),
-                    campanha.getDataFinal().getDay());
+            if (campanha.getDataFinal() != null) {
+                campoUsaDataFinal.setChecked(true);
+                campoDataFinal.setText(DataUtil.toString(campanha.getDataFinal()));
+            } else {
+                campoUsaDataFinal.setChecked(false);
+                campoDataFinal.setText("");
+            }
         }
 
         if (campoObjetivo != null) {
             campoObjetivo.setText(campanha.getObjetivo());
         }
 
-        if (campoAreaAtuacao != null) {
+        if (campoAtividades != null) {
             campoAtividades.setText(campanha.getAtividades());
         }
 
@@ -145,5 +159,39 @@ public class CampanhaHelper {
         if (campoAreaAtuacao != null) {
             campoAreaAtuacao.setText(campanha.getAreaAtuacao());
         }
+    }
+
+    public boolean ValidacaoCampanha() {
+
+        boolean validado = true;
+
+        CarregaCampos();
+
+        //campanha.setId(campoId);
+
+        if (campoTitulo != null) {
+            if (campoTitulo.length() == 0) {
+                campoTitulo.setError("Obrigatório!");
+                validado = false;
+            }
+        }
+
+        //campanha.setFrase(campoSlogan);
+
+        if (campoTipo != null) {
+            if (campoTipo.getSelectedItemPosition() < 1) {
+                Toast.makeText(campanhaActivity,"Escolha o tipo da campanha!",Toast.LENGTH_SHORT).show();
+                validado = false;
+            }
+        }
+
+        if (campoObjetivo != null) {
+            if (campoObjetivo.length() == 0) {
+                campoObjetivo.setError("Obrigatório!");
+                validado = false;
+            }
+        }
+
+        return validado;
     }
 }

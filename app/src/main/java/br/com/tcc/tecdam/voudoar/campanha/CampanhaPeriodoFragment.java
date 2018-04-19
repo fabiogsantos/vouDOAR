@@ -2,7 +2,6 @@ package br.com.tcc.tecdam.voudoar.campanha;
 
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,23 +13,19 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.Date;
 
 import br.com.tcc.tecdam.voudoar.R;
+import br.com.tcc.tecdam.voudoar.util.DataUtil;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CampanhaPeriodoFragment extends Fragment {
-
-    private OnFragmentInteraction fragmentInteraction;
+public class CampanhaPeriodoFragment extends CampanhaFragment {
 
     DatePicker datePickerDataInicial;
     DatePickerDialog.OnDateSetListener listenerDataFinal;
-
-    Calendar dataFinalCalendar = Calendar.getInstance();
 
     RelativeLayout groupDataFinal;
     Switch switchDataFinal;
@@ -38,8 +33,7 @@ public class CampanhaPeriodoFragment extends Fragment {
     TextView valorDataFinal;
 
     public static CampanhaPeriodoFragment newInstance() {
-        CampanhaPeriodoFragment fragment = new CampanhaPeriodoFragment();
-        return fragment;
+        return new CampanhaPeriodoFragment();
     }
 
     @Override
@@ -57,10 +51,8 @@ public class CampanhaPeriodoFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                dataFinalCalendar.set(Calendar.YEAR, year);
-                dataFinalCalendar.set(Calendar.MONTH, monthOfYear);
-                dataFinalCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabelDataFinal();
+                Date data = new Date(year,monthOfYear,dayOfMonth);
+                updateLabelDataFinal(data);
             }
         };
 
@@ -74,7 +66,6 @@ public class CampanhaPeriodoFragment extends Fragment {
                         datePickerDataInicial.getYear(),
                         datePickerDataInicial.getMonth(),
                         datePickerDataInicial.getDayOfMonth());
-                fragmentInteraction.setDataInicial(converDatePicker);
             }
         });
 
@@ -106,9 +97,7 @@ public class CampanhaPeriodoFragment extends Fragment {
                     textDataFinal.setEnabled(false);
                     valorDataFinal.setEnabled(false);
                     valorDataFinal.setText("");
-                    dataFinalCalendar.setTime(Calendar.getInstance().getTime());
                     datePickerDataInicial.setMaxDate(DEFAULT_MAX_DATE);
-                    fragmentInteraction.setDataFinal(null);
                 }
             }
         });
@@ -116,35 +105,15 @@ public class CampanhaPeriodoFragment extends Fragment {
         return view;
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        fragmentInteraction.pegaDados();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteraction) {
-            fragmentInteraction = (OnFragmentInteraction) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " necessário implementar CampanhaPeriodoFragment.OnFragmentInteraction");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        fragmentInteraction = null;
-    }
-
     private void ShowDatePickerDialog() {
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), listenerDataFinal, dataFinalCalendar
-                .get(Calendar.YEAR), dataFinalCalendar.get(Calendar.MONTH),
-                dataFinalCalendar.get(Calendar.DAY_OF_MONTH));
+        Date dataFinal = DataUtil.toDate(valorDataFinal.getText().toString());
+        if (dataFinal == null) {
+          dataFinal = new Date(datePickerDataInicial.getMaxDate());
+        }
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), listenerDataFinal,
+                dataFinal.getYear(), dataFinal.getMonth(), dataFinal.getDay());
 
         //datePickerDataInicial.getDayOfMonth()
         Calendar converDatePicker = java.util.Calendar.getInstance();
@@ -156,21 +125,10 @@ public class CampanhaPeriodoFragment extends Fragment {
 
                 setMinDate(converDatePicker.getTimeInMillis());
         datePickerDialog.show();
-
     }
 
-    private void updateLabelDataFinal() {
-        final Locale localeBrasil = new Locale("pt", "BR");
-        String myFormat = "dd/MM/yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, localeBrasil);
-        valorDataFinal.setText(sdf.format(dataFinalCalendar.getTime()));
-        datePickerDataInicial.setMaxDate(dataFinalCalendar.getTimeInMillis());
-        fragmentInteraction.setDataFinal(dataFinalCalendar);
-    }
-
-    public interface OnFragmentInteraction {
-        void setDataInicial(Calendar data);
-        void setDataFinal(Calendar data);
-        void pegaDados();
+    private void updateLabelDataFinal(Date data) {
+        valorDataFinal.setText(DataUtil.toString(data));
+        datePickerDataInicial.setMaxDate(data.getTime());
     }
 }

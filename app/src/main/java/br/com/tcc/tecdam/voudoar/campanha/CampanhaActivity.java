@@ -21,9 +21,7 @@ import br.com.tcc.tecdam.voudoar.R;
 import br.com.tcc.tecdam.voudoar.dao.VouDoarDAO;
 import br.com.tcc.tecdam.voudoar.domain.Campanha;
 
-public class CampanhaActivity extends AppCompatActivity
-        implements CampanhaPeriodoFragment.OnFragmentInteraction,
-        CampanhaTipoFragment.OnFragmentInteraction {
+public class CampanhaActivity extends AppCompatActivity implements CampanhaMVP.ViewResource{
 
     public static final String INTENT_KEY_CAMPANHA = "Campanha";
     public static final String INTENT_KEY_ID_CAMPANHA = Campanha.COLUMN_ID;
@@ -31,7 +29,7 @@ public class CampanhaActivity extends AppCompatActivity
     private CampanhaHelper campanhaHelper;
     private Campanha campanha;
 
-    private FragmentManager fragmentManager;
+    private FragmentManager fragmentManager = getSupportFragmentManager();
     private List<Integer> listFragments = Arrays.asList(R.layout.fragment_campanha_tipo,
             R.layout.fragment_campanha_nome,
             R.layout.fragment_campanha_sobre,
@@ -107,10 +105,12 @@ public class CampanhaActivity extends AppCompatActivity
         botaoConfirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (habilitaBotaoConfirmar) {
-                    ConfirmaDados();
-                } else{
-                    ProximaPagina();
+                if (campanhaHelper.ValidacaoCampanha()) {
+                    if (habilitaBotaoConfirmar) {
+                        ConfirmaDados();
+                    } else {
+                        ProximaPagina();
+                    }
                 }
             }
         });
@@ -153,8 +153,6 @@ public class CampanhaActivity extends AppCompatActivity
     }
 
     private void AtualizaTela() {
-        fragmentManager = getSupportFragmentManager();
-
         Fragment findFragment  = fragmentManager.findFragmentById(idCurrentFragment);
         if ((findFragment != null) && (findFragment == currentFlagment)) {
             return;
@@ -187,6 +185,10 @@ public class CampanhaActivity extends AppCompatActivity
         tx.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         //tx.addToBackStack(null);
         tx.commit();
+
+        if (campanha != null) {
+            campanhaHelper.mostraCampanha(campanha);
+        }
 
         passosTela.setProgress(itemListCurrentFragment);
 
@@ -248,21 +250,7 @@ public class CampanhaActivity extends AppCompatActivity
     }
 
     @Override
-    public void setDataInicial(Calendar data) {
-        if (campanha != null) {
-            campanha.setDataInicio(data.getTime());
-        }
-    }
-
-    @Override
-    public void setDataFinal(Calendar data) {
-        if (campanha != null) {
-            campanha.setDataFinal(data.getTime());
-        }
-    }
-
-    @Override
-    public void pegaDados() {
+    public void carregaDados() {
         if (campanha != null) {
             campanhaHelper.mostraCampanha(campanha);
         }

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import br.com.tcc.tecdam.voudoar.R;
 
-public class CampanhaSobreFragment extends Fragment {
+public class CampanhaSobreFragment extends CampanhaFragment {
 
     public static CampanhaSobreFragment newInstance() {
         CampanhaSobreFragment fragment = new CampanhaSobreFragment();
@@ -26,15 +26,5 @@ public class CampanhaSobreFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_campanha_sobre, container, false);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 }

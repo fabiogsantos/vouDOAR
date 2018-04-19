@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CampanhaActivity.class);
                 //intent.putExtra(CampanhaActivity.INTENT_KEY_ID_CAMPANHA,1);
-                Campanha campanha = new Campanha(0, 7, "RIC 2018", "",
+                Campanha campanha = new Campanha(0, 8, "RIC 2018", "",
                         new Date(2018, 9, 01), new Date(2018, 12, 25),
                         "Distribuição de cestas básicas natalinas para famílias carentes previamente cadastradas.",
                         "Arrecadação de Alimentos em pontos de coletas e no porta a porta, montagem das cestas e entrega das Cestas as famílias!",
