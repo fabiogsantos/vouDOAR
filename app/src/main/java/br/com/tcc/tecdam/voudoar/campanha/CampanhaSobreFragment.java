@@ -12,8 +12,7 @@ import br.com.tcc.tecdam.voudoar.R;
 public class CampanhaSobreFragment extends CampanhaFragment {
 
     public static CampanhaSobreFragment newInstance() {
-        CampanhaSobreFragment fragment = new CampanhaSobreFragment();
-        return fragment;
+        return new CampanhaSobreFragment();
     }
 
     @Override

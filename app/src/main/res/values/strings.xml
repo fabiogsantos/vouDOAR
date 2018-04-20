@@ -15,4 +15,8 @@
     <string name="botao_voltar">Voltar</string>
     <string name="botao_confirmar">Confirmar</string>
     <string name="aviso_implementar_campanhamvp_viewresource">, necessário implementar CampanhaMVP.ViewResource</string>
+    <string name="aviso_escolha_tipo_campanha">Escolha o tipo da campanha!</string>
+    <string name="aviso_valor_obrigatorio">Obrigatório!</string>
+    <string name="aviso_campanha_confirmada">Campanha confirmada! %s</string>
+    <string name="aviso_campanha_incompleta">A campanha não foi informada completamente!</string>
 </resources>

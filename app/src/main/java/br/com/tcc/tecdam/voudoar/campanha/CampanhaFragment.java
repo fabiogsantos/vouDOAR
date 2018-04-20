@@ -16,7 +16,7 @@ public abstract class CampanhaFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        activity.carregaDados();
+        activity.ApresentaDados();
     }
 
     @Override

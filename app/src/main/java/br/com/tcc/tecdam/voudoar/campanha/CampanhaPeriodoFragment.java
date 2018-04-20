@@ -19,9 +19,6 @@ import java.util.Date;
 import br.com.tcc.tecdam.voudoar.R;
 import br.com.tcc.tecdam.voudoar.util.DataUtil;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class CampanhaPeriodoFragment extends CampanhaFragment {
 
     DatePicker datePickerDataInicial;
@@ -51,7 +48,7 @@ public class CampanhaPeriodoFragment extends CampanhaFragment {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                Date data = new Date(year,monthOfYear,dayOfMonth);
+                Date data = new Date(year,monthOfYear+1,dayOfMonth);
                 updateLabelDataFinal(data);
             }
         };
@@ -115,15 +112,12 @@ public class CampanhaPeriodoFragment extends CampanhaFragment {
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), listenerDataFinal,
                 dataFinal.getYear(), dataFinal.getMonth(), dataFinal.getDay());
 
-        //datePickerDataInicial.getDayOfMonth()
         Calendar converDatePicker = java.util.Calendar.getInstance();
         converDatePicker.set(
                 datePickerDataInicial.getYear(),
                 datePickerDataInicial.getMonth(),
                 datePickerDataInicial.getDayOfMonth());
-        datePickerDialog.getDatePicker().
-
-                setMinDate(converDatePicker.getTimeInMillis());
+        datePickerDialog.getDatePicker().setMinDate(converDatePicker.getTimeInMillis());
         datePickerDialog.show();
     }
 

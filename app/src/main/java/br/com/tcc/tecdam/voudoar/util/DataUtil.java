@@ -16,9 +16,7 @@ public class DataUtil {
     public static final String PAIS_BR = "BR";
 
     public static Date toDate(String data) {
-        final Locale localeBrasil = new Locale(IDIOMA_PT, PAIS_BR);
-        String myFormat = MASCARA_DD_MM_YYYY; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, localeBrasil);
+        SimpleDateFormat sdf = new SimpleDateFormat(MASCARA_DD_MM_YYYY, new Locale(IDIOMA_PT, PAIS_BR));
         Date dataConvert = null;
         try {
             dataConvert = sdf.parse(data);
@@ -29,9 +27,6 @@ public class DataUtil {
     }
 
     public static String toString(Date data) {
-        final Locale localeBrasil = new Locale(IDIOMA_PT, PAIS_BR);
-        String myFormat = MASCARA_DD_MM_YYYY; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, localeBrasil);
-        return sdf.format(data);
+        return new SimpleDateFormat(MASCARA_DD_MM_YYYY).format(data);
     }
 }

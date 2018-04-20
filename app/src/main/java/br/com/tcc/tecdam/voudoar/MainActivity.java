@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import java.util.Date;
 
 import br.com.tcc.tecdam.voudoar.campanha.CampanhaActivity;
+import br.com.tcc.tecdam.voudoar.campanha.CampanhaMVP;
 import br.com.tcc.tecdam.voudoar.domain.Campanha;
 
 public class MainActivity extends AppCompatActivity
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity
                         "Distribuição de cestas básicas natalinas para famílias carentes previamente cadastradas.",
                         "Arrecadação de Alimentos em pontos de coletas e no porta a porta, montagem das cestas e entrega das Cestas as famílias!",
                         "", "PE", "Paudalho, Carpina e Recife", "", "", "", "");
-                intent.putExtra(CampanhaActivity.INTENT_KEY_CAMPANHA,campanha);
+                intent.putExtra(CampanhaMVP.INTENT_KEY_CAMPANHA,campanha);
                 startActivity(intent);
             }
         });
