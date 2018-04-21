@@ -14,7 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.Date;
+import java.sql.Date;
 
 import br.com.tcc.tecdam.voudoar.campanha.CampanhaActivity;
 import br.com.tcc.tecdam.voudoar.campanha.CampanhaMVP;

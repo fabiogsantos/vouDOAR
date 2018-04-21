@@ -2,9 +2,9 @@ package br.com.tcc.tecdam.voudoar.campanha;
 
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,20 +14,20 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
 
 import br.com.tcc.tecdam.voudoar.R;
 import br.com.tcc.tecdam.voudoar.util.DataUtil;
 
 public class CampanhaPeriodoFragment extends CampanhaFragment {
 
-    DatePicker datePickerDataInicial;
-    DatePickerDialog.OnDateSetListener listenerDataFinal;
+    private DatePicker datePickerDataInicial;
+    private DatePickerDialog.OnDateSetListener listenerDataFinal;
 
-    RelativeLayout groupDataFinal;
-    Switch switchDataFinal;
-    TextView textDataFinal;
-    TextView valorDataFinal;
+    private RelativeLayout groupDataFinal;
+    private Switch switchDataFinal;
+    private TextView textDataFinal;
+    private TextView valorDataFinal;
 
     public static CampanhaPeriodoFragment newInstance() {
         return new CampanhaPeriodoFragment();
@@ -48,7 +48,8 @@ public class CampanhaPeriodoFragment extends CampanhaFragment {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                Date data = new Date(year,monthOfYear+1,dayOfMonth);
+
+                Date data = DataUtil.toDate(year,monthOfYear,dayOfMonth);
                 updateLabelDataFinal(data);
             }
         };
@@ -77,7 +78,7 @@ public class CampanhaPeriodoFragment extends CampanhaFragment {
         groupDataFinal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowDatePickerDialog();
+                ShowDatePickerDialog(false);
             }
         });
 
@@ -88,7 +89,7 @@ public class CampanhaPeriodoFragment extends CampanhaFragment {
                     textDataFinal.setEnabled(true);
                     valorDataFinal.setEnabled(true);
 
-                    ShowDatePickerDialog();
+                    ShowDatePickerDialog(true);
 
                 } else {
                     textDataFinal.setEnabled(false);
@@ -102,15 +103,29 @@ public class CampanhaPeriodoFragment extends CampanhaFragment {
         return view;
     }
 
-    private void ShowDatePickerDialog() {
+    private void ShowDatePickerDialog(Boolean clickCancelDisableSwitch) {
 
         Date dataFinal = DataUtil.toDate(valorDataFinal.getText().toString());
         if (dataFinal == null) {
-          dataFinal = new Date(datePickerDataInicial.getMaxDate());
+            dataFinal = DataUtil.toDate(datePickerDataInicial.getYear(),datePickerDataInicial.getMonth(),datePickerDataInicial.getDayOfMonth());
         }
 
+        Calendar calendar = DataUtil.toCalendar(dataFinal);
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), listenerDataFinal,
-                dataFinal.getYear(), dataFinal.getMonth(), dataFinal.getDay());
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        // Evento para cancelamento do calendario da data final
+        if (clickCancelDisableSwitch) {
+            datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int button) {
+                        if (button == DialogInterface.BUTTON_NEGATIVE) {
+                            switchDataFinal.setChecked(false);
+                        }
+                    }
+                }
+            );
+        }
 
         Calendar converDatePicker = java.util.Calendar.getInstance();
         converDatePicker.set(

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import br.com.tcc.tecdam.voudoar.R;
@@ -79,12 +79,10 @@ public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
         //campanha.setCorFundo(campoCorFundo);
 
         if (campoDataInicio != null) {
-            Calendar converDatePicker = java.util.Calendar.getInstance();
-            converDatePicker.set(
+            campanha.setDataInicio(DataUtil.toDate(
                     campoDataInicio.getYear(),
                     campoDataInicio.getMonth(),
-                    campoDataInicio.getDayOfMonth());
-            campanha.setDataInicio(converDatePicker.getTime());
+                    campoDataInicio.getDayOfMonth()));
         }
 
         if (campoDataFinal != null) {
@@ -148,11 +146,13 @@ public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
         if (campoDataInicio != null) {
             Date dataInicio = campanha.getDataInicio();
             if (dataInicio == null) {
-                dataInicio = Calendar.getInstance().getTime();
+                dataInicio = new Date(System.currentTimeMillis());
             }
-            campoDataInicio.updateDate(dataInicio.getYear(),
-                    dataInicio.getMonth(),
-                    dataInicio.getDay());
+
+            Calendar calendar = DataUtil.toCalendar(dataInicio);
+            campoDataInicio.updateDate(calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH));
         }
 
         if (campoDataFinal != null) {

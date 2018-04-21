@@ -19,4 +19,5 @@
     <string name="aviso_valor_obrigatorio">Obrigatório!</string>
     <string name="aviso_campanha_confirmada">Campanha confirmada! %s</string>
     <string name="aviso_campanha_incompleta">A campanha não foi informada completamente!</string>
+    <string name="cancel">Cancelar</string>
 </resources>

@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Created by fabio.goncalves on 12/04/2018.
@@ -93,8 +93,8 @@ public class Campanha implements Parcelable{
         this.tipo          = cursor.getInt(cursor.getColumnIndex(COLUMN_TIPO));
         this.titulo        = cursor.getString(cursor.getColumnIndex(COLUMN_TITULO));
         this.frase         = cursor.getString(cursor.getColumnIndex(COLUMN_FRASE));
-        this.dataInicio    = new Date(cursor.getInt(cursor.getColumnIndex(COLUMN_DATA_INICIO)));
-        this.dataFinal     = new Date(cursor.getInt(cursor.getColumnIndex(COLUMN_DATA_FINAL)));
+        this.dataInicio    = new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_DATA_INICIO)));
+        this.dataFinal     = new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_DATA_FINAL)));
         this.objetivo      = cursor.getString(cursor.getColumnIndex(COLUMN_OBJETIVO));
         this.atividades    = cursor.getString(cursor.getColumnIndex(COLUMN_ATIVIDADES));
         this.publicoAlvo   = cursor.getString(cursor.getColumnIndex(COLUMN_PUBLICO_ALVO));
@@ -268,10 +268,10 @@ public class Campanha implements Parcelable{
         dados.put(COLUMN_TITULO, this.getTitulo() );
         dados.put(COLUMN_FRASE, this.getFrase() );
         if (this.getDataInicio() != null) {
-            dados.put(COLUMN_DATA_INICIO,  this.getDataInicio().getDate() );
+            dados.put(COLUMN_DATA_INICIO,  this.getDataInicio().getTime() );
         }
         if (this.getDataFinal() != null) {
-            dados.put(COLUMN_DATA_FINAL, this.getDataFinal().getDate());
+            dados.put(COLUMN_DATA_FINAL, this.getDataFinal().getTime());
         }
         dados.put(COLUMN_OBJETIVO, this.getObjetivo() );
         dados.put(COLUMN_ATIVIDADES, this.getAtividades() );
