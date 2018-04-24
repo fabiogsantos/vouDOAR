@@ -1,4 +1,4 @@
-package br.com.tcc.tecdam.voudoar.campanha;
+package br.com.tcc.tecdam.voudoar.campanha.fragment;
 
 
 import android.app.DatePickerDialog;

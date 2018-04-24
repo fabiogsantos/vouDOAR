@@ -3,23 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="br.com.tcc.tecdam.voudoar.campanha.CampanhaNomeFragment"
+    tools:context="br.com.tcc.tecdam.voudoar.campanha.fragment.CampanhaNomeFragment"
     android:padding="16dp">
-
-    <!--
-    private Integer tipo;               // Causa de interesse da campanha: 0 - Outros, 1 - Capacitação Profissional, 2 - Cultura e Arte, 3 - Defesa dos Direitos Humanos, 4 - Educação, 5 - Esportes, 6 - Meio Ambiente e Proteção dos Animais, 7 - Saúde, 8 - Serviços Sociais
-    private String  imagem;             // Logotipo
-    private Color   corFundo;           // Cor de Fundo
-    private Date    dataInicio;         // Data de Início da Campanha
-    private Date    dataFinal;          // Data Final da Campanha
-    private String  objetivo;           // Sobre nós (Motivação e Objetivos)
-    private String  atividades;         // ações realizadas na campanha
-    private String  sobreProblema;      // Sobre o problema que a campanha pretende atacar
-    private String  sobreSolucao;       // Sobre a solução proposta para atacar o problema
-    private String  publicoAlvo;        // Quais pessoas deseja atender
-    private String  ufAtuacao;          // Estado de atuação da campanha;
-    private StriareaAtuacaoacao;      // Cidade de atuação da campanha;
-    -->
 
     <LinearLayout
         android:orientation="vertical"

@@ -2,9 +2,6 @@ package br.com.tcc.tecdam.voudoar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,11 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.sql.Date;
-
-import br.com.tcc.tecdam.voudoar.campanha.CampanhaActivity;
-import br.com.tcc.tecdam.voudoar.campanha.CampanhaMVP;
-import br.com.tcc.tecdam.voudoar.domain.Campanha;
+import br.com.tcc.tecdam.voudoar.campanha.activity.ListaCampanhaActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,22 +22,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CampanhaActivity.class);
-                //intent.putExtra(CampanhaActivity.INTENT_KEY_ID_CAMPANHA,1);
-                Campanha campanha = new Campanha(0, 8, "RIC 2018", "",
-                        new Date(2018, 9, 01), new Date(2018, 12, 25),
-                        "Distribuição de cestas básicas natalinas para famílias carentes previamente cadastradas.",
-                        "Arrecadação de Alimentos em pontos de coletas e no porta a porta, montagem das cestas e entrega das Cestas as famílias!",
-                        "", "PE", "Paudalho, Carpina e Recife", "", "", "", "");
-                intent.putExtra(CampanhaMVP.INTENT_KEY_CAMPANHA,campanha);
-                startActivity(intent);
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -95,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_campanhas_sociais) {
-
+            chamaListaCampanha();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -111,5 +88,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void chamaListaCampanha() {
+        Intent intent = new Intent(MainActivity.this, ListaCampanhaActivity.class);
+        startActivity(intent);
     }
 }

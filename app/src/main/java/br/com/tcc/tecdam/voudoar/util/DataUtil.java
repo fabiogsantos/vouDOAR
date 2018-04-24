@@ -17,6 +17,7 @@ public class DataUtil {
     public static final String PAIS_BR = "BR";
 
     public static Date toDate(String data) {
+        if (data == null || data.isEmpty()) return null;
         SimpleDateFormat sdf = new SimpleDateFormat(MASCARA_DD_MM_YYYY, new Locale(IDIOMA_PT, PAIS_BR));
         Date dataConvert = null;
         try {

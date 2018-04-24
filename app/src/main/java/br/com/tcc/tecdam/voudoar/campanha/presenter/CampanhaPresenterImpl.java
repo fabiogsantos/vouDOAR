@@ -1,4 +1,4 @@
-package br.com.tcc.tecdam.voudoar.campanha;
+package br.com.tcc.tecdam.voudoar.campanha.presenter;
 
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -14,6 +14,12 @@ import java.sql.Date;
 import java.util.List;
 
 import br.com.tcc.tecdam.voudoar.R;
+import br.com.tcc.tecdam.voudoar.campanha.activity.NovaCampanhaActivity;
+import br.com.tcc.tecdam.voudoar.campanha.fragment.CampanhaNomeFragment;
+import br.com.tcc.tecdam.voudoar.campanha.fragment.CampanhaPeriodoFragment;
+import br.com.tcc.tecdam.voudoar.campanha.fragment.CampanhaSobreFragment;
+import br.com.tcc.tecdam.voudoar.campanha.fragment.CampanhaTipoFragment;
+import br.com.tcc.tecdam.voudoar.campanha.contrato.CampanhaMVP;
 import br.com.tcc.tecdam.voudoar.dao.VouDoarDAO;
 import br.com.tcc.tecdam.voudoar.domain.Campanha;
 import br.com.tcc.tecdam.voudoar.util.DataUtil;
@@ -30,7 +36,7 @@ public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
             R.layout.fragment_campanha_sobre,
             R.layout.fragment_campanha_periodo);
 
-    private final CampanhaActivity campanhaActivity;
+    private final NovaCampanhaActivity novaCampanhaActivity;
     private CampanhaMVP.ViewResource viewResource;
 
     private Campanha campanha;
@@ -49,8 +55,8 @@ public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
     //private TextInputEditText campoPublicoAlvo;
     private TextInputEditText campoAreaAtuacao;
 
-    public CampanhaPresenterImpl(CampanhaActivity activity) {
-        campanhaActivity = activity;
+    public CampanhaPresenterImpl(NovaCampanhaActivity activity) {
+        novaCampanhaActivity = activity;
         if (activity instanceof CampanhaMVP.ViewResource) {
             viewResource = activity;
         } else {
@@ -112,20 +118,24 @@ public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
     }
 
     private void CarregaCampos() {
-        campoTitulo          = campanhaActivity.findViewById(R.id.campanha_nome_edit);
-        campoTipo            = campanhaActivity.findViewById(R.id.campanha_tipo_spinner);
-        campoDataInicio      = campanhaActivity.findViewById(R.id.campanha_periodo_datepicker);
-        campoDataFinal       = campanhaActivity.findViewById(R.id.campanha_periodo_valordatafinal);
-        campoUsaDataFinal    = campanhaActivity.findViewById(R.id.campanha_periodo_switch);
-        campoObjetivo        = campanhaActivity.findViewById(R.id.campanha_sobre_edit_objetivo);
-        campoAtividades      = campanhaActivity.findViewById(R.id.campanha_sobre_edit_atividades);
-        //campoSobreProblema = campanhaActivity.findViewById(R.id.campanha_sobre_edit_sobreproblema);
-        //campoSobreSolucao  = campanhaActivity.findViewById(R.id.campanha_sobre_edit_sobresolucao);
-        //campoPublicoAlvo   = campanhaActivity.findViewById(R.id.campanha_sobre_edit_publicoalvo);
-        campoAreaAtuacao     = campanhaActivity.findViewById(R.id.campanha_sobre_edit_areaatuacao);
+        campoTitulo          = novaCampanhaActivity.findViewById(R.id.campanha_nome_edit);
+        campoTipo            = novaCampanhaActivity.findViewById(R.id.campanha_tipo_spinner);
+        campoDataInicio      = novaCampanhaActivity.findViewById(R.id.campanha_periodo_datepicker);
+        campoDataFinal       = novaCampanhaActivity.findViewById(R.id.campanha_periodo_valordatafinal);
+        campoUsaDataFinal    = novaCampanhaActivity.findViewById(R.id.campanha_periodo_switch);
+        campoObjetivo        = novaCampanhaActivity.findViewById(R.id.campanha_sobre_edit_objetivo);
+        campoAtividades      = novaCampanhaActivity.findViewById(R.id.campanha_sobre_edit_atividades);
+        //campoSobreProblema = novaCampanhaActivity.findViewById(R.id.campanha_sobre_edit_sobreproblema);
+        //campoSobreSolucao  = novaCampanhaActivity.findViewById(R.id.campanha_sobre_edit_sobresolucao);
+        //campoPublicoAlvo   = novaCampanhaActivity.findViewById(R.id.campanha_sobre_edit_publicoalvo);
+        campoAreaAtuacao     = novaCampanhaActivity.findViewById(R.id.campanha_sobre_edit_areaatuacao);
     }
 
     public void MostraDados() {
+        if (campanha == null) {
+            return;
+        }
+
         CarregaCampos();
 
         //campanha.setId(campoId);
@@ -193,7 +203,7 @@ public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
 
         if (campoTitulo != null) {
             if (campoTitulo.length() == 0) {
-                campoTitulo.setError(campanhaActivity.getString(R.string.aviso_valor_obrigatorio));
+                campoTitulo.setError(novaCampanhaActivity.getString(R.string.aviso_valor_obrigatorio));
                 validado = false;
             }
         }
@@ -202,14 +212,14 @@ public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
 
         if (campoTipo != null) {
             if (campoTipo.getSelectedItemPosition() < 1) {
-                viewResource.Aviso(campanhaActivity.getString(R.string.aviso_escolha_tipo_campanha));
+                viewResource.Aviso(novaCampanhaActivity.getString(R.string.aviso_escolha_tipo_campanha));
                 validado = false;
             }
         }
 
         if (campoObjetivo != null) {
             if (campoObjetivo.length() == 0) {
-                campoObjetivo.setError(campanhaActivity.getString(R.string.aviso_valor_obrigatorio));
+                campoObjetivo.setError(novaCampanhaActivity.getString(R.string.aviso_valor_obrigatorio));
                 validado = false;
             }
         }
@@ -218,16 +228,17 @@ public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
     }
 
     public void ConfirmaDados() {
+        SalvaDados();
         if (campanha != null) {
             if (ValidacaoCampanha()) {
-                VouDoarDAO db = new VouDoarDAO(campanhaActivity);
-                Long id = db.insereCampanha(campanha);
+                VouDoarDAO db = new VouDoarDAO(novaCampanhaActivity);
+                db.gravaCampanha(campanha);
                 db.close();
-                viewResource.Aviso(String.format(campanhaActivity.getString(R.string.aviso_campanha_confirmada), new String[]{"(" + Campanha.COLUMN_ID + " " + id + ")"}));
+                viewResource.Aviso(novaCampanhaActivity.getString(R.string.aviso_campanha_confirmada));
                 viewResource.Fecha();
             }
         } else {
-            viewResource.Aviso(campanhaActivity.getString(R.string.aviso_campanha_incompleta));
+            viewResource.Aviso(novaCampanhaActivity.getString(R.string.aviso_campanha_incompleta));
         }
     }
 
@@ -235,16 +246,16 @@ public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
     public void InicializaCampanha(Bundle extras) {
         if (extras != null) {
             campanha = extras.getParcelable(CampanhaMVP.INTENT_KEY_CAMPANHA);
-            Long idCampanha = extras.getLong(CampanhaMVP.INTENT_KEY_ID_CAMPANHA, 0);
+            String idCampanha = extras.getString(CampanhaMVP.INTENT_KEY_ID_CAMPANHA);
 
             if (campanha == null) {
                 // Informado um id ja cadastrado
-                if (idCampanha != 0) {
-                    VouDoarDAO db = new VouDoarDAO(campanhaActivity);
+                if (! idCampanha.isEmpty()) {
+                    VouDoarDAO db = new VouDoarDAO(novaCampanhaActivity);
                     campanha = db.buscaCampanha(idCampanha);
                     db.close();
                     if (campanha == null) {
-                        viewResource.Aviso("Campanha com " + Campanha.COLUMN_ID + " " + idCampanha + " não encontrado!");
+                        viewResource.Aviso(novaCampanhaActivity.getString(R.string.campanha_nao_encontrada));
                         viewResource.Fecha();
                     }
                 } else {
@@ -290,7 +301,7 @@ public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
                 fragment = CampanhaPeriodoFragment.newInstance();
                 break;
             default:
-                throw new RuntimeException("layout do fragment da campanha com id "+idFragment+" não reconhecido!");
+                throw new RuntimeException(String.format(novaCampanhaActivity.getString(R.string.layout_fragment_nao_reconhecido), new String[]{String.valueOf(idFragment)}));
         }
         return fragment;
     }

@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.sql.Date;
+import java.util.UUID;
 
 /**
  * Created by fabio.goncalves on 12/04/2018.
@@ -13,21 +14,21 @@ import java.sql.Date;
 
 public class Campanha implements Parcelable{
 
-    private Long    id;                 // Identificador gerado automaticamente pelo banco de dados
-    private String  titulo;             // Nome da campanha
-    private String  frase;              // Frase de impácto ou Bordão
-    private Integer tipo;               // Causa de interesse da campanha: 0 - Outros, 1 - Capacitação Profissional, 2 - Cultura e Arte, 3 - Defesa dos Direitos Humanos, 4 - Educação, 5 - Esportes, 6 - Meio Ambiente e Proteção dos Animais, 7 - Saúde, 8 - Serviços Sociais
-    private Date    dataInicio;         // Data de Início da Campanha
-    private Date    dataFinal;          // Data Final da Campanha
-    private String  objetivo;           // Sobre nós (Motivação e Objetivos)
-    private String  atividades;         // ações realizadas na campanha
-    private String  publicoAlvo;        // Quais pessoas deseja atender
-    private String  ufAtuacao;          // Estado de atuação da campanha;
-    private String  areaAtuacao;        // Cidade de atuação da campanha;
-    private String  imagem;             // Logotipo
-    private String  corFundo;           // Cor de Fundo
-    private String  sobreProblema;      // Sobre o problema que a campanha pretende atacar
-    private String  sobreSolucao;       // Sobre a solução proposta para atacar o problema
+    private String  id = "";                 // Identificador gerado automaticamente pelo banco de dados
+    private String  titulo = "";             // Nome da campanha
+    private String  frase = "";              // Frase de impácto ou Bordão
+    private Integer tipo = 0;                // Causa de interesse da campanha: 0 - Outros, 1 - Capacitação Profissional, 2 - Cultura e Arte, 3 - Defesa dos Direitos Humanos, 4 - Educação, 5 - Esportes, 6 - Meio Ambiente e Proteção dos Animais, 7 - Saúde, 8 - Serviços Sociais
+    private Date    dataInicio;              // Data de Início da Campanha
+    private Date    dataFinal;               // Data Final da Campanha
+    private String  objetivo = "";           // Sobre nós (Motivação e Objetivos)
+    private String  atividades = "";         // ações realizadas na campanha
+    private String  publicoAlvo = "";        // Quais pessoas deseja atender
+    private String  ufAtuacao = "";          // Estado de atuação da campanha;
+    private String  areaAtuacao = "";        // Cidade de atuação da campanha;
+    private String  imagem = "";             // Logotipo
+    private String  corFundo = "";           // Cor de Fundo
+    private String  sobreProblema = "";      // Sobre o problema que a campanha pretende atacar
+    private String  sobreSolucao = "";       // Sobre a solução proposta para atacar o problema
 
     public static final String TABLE_NAME = "Campanhas";
     public static final String COLUMN_ID = "id";
@@ -47,7 +48,7 @@ public class Campanha implements Parcelable{
     public static final String COLUMN_SOBRE_PROBLEMA = "sobre_problema";
     public static final String COLUMN_SOBRE_SOLUCAO = "sobre_solucao";
     public static final String SQL_CREATE_TABLE = "CREATE TABLE "+ TABLE_NAME +"("+
-            COLUMN_ID + " INTEGER PRIMARY KEY," +
+            COLUMN_ID + " CHAR(36) PRIMARY KEY," +
             COLUMN_DATA_INCLUSAO + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
             COLUMN_TIPO + " INTEGER NOT NULL," +
             COLUMN_TITULO + " TEXT NOT NULL," +
@@ -65,9 +66,10 @@ public class Campanha implements Parcelable{
             COLUMN_SOBRE_SOLUCAO + " TEXT" +
             ");";
 
-    public Campanha() {}
+    public Campanha() {
+    }
 
-    public Campanha(long id, int tipo, String titulo, String frase, Date dataInicio, Date dataFinal,
+    public Campanha(String id, int tipo, String titulo, String frase, Date dataInicio, Date dataFinal,
                     String objetivo, String atividades, String publicoAlvo, String ufAtuacao,
                     String areaAtuacao, String imagem, String corFundo, String sobreProblema,
                     String sobreSolucao) {
@@ -89,7 +91,7 @@ public class Campanha implements Parcelable{
     }
 
     public Campanha(Cursor cursor) {
-        this.id            = cursor.getLong(cursor.getColumnIndex(COLUMN_ID));
+        this.id            = cursor.getString(cursor.getColumnIndex(COLUMN_ID));
         this.tipo          = cursor.getInt(cursor.getColumnIndex(COLUMN_TIPO));
         this.titulo        = cursor.getString(cursor.getColumnIndex(COLUMN_TITULO));
         this.frase         = cursor.getString(cursor.getColumnIndex(COLUMN_FRASE));
@@ -107,11 +109,7 @@ public class Campanha implements Parcelable{
     }
 
     protected Campanha(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readLong();
-        }
+        id = in.readString();
         titulo = in.readString();
         frase = in.readString();
         if (in.readByte() == 0) {
@@ -142,11 +140,11 @@ public class Campanha implements Parcelable{
         }
     };
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -262,9 +260,22 @@ public class Campanha implements Parcelable{
         this.areaAtuacao = areaAtuacao;
     }
 
+    @Override
+    public String toString() {
+        return titulo + " (Dt.Inicio: " + dataInicio + ")";
+    }
+
     public ContentValues GetContentValues() {
         ContentValues dados = new ContentValues();
-        dados.put(COLUMN_TIPO, this.getTipo() );
+
+        if (this.getId().isEmpty()) {
+          this.setId(UUID.randomUUID().toString());
+        }
+        dados.put(COLUMN_ID, this.getId());
+
+        if (this.getTipo() != null) {
+            dados.put(COLUMN_TIPO, this.getTipo());
+        }
         dados.put(COLUMN_TITULO, this.getTitulo() );
         dados.put(COLUMN_FRASE, this.getFrase() );
         if (this.getDataInicio() != null) {
@@ -292,12 +303,7 @@ public class Campanha implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        if (id == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeLong(id);
-        }
+        parcel.writeString(id);
         parcel.writeString(titulo);
         parcel.writeString(frase);
         if (tipo == null) {

@@ -1,4 +1,4 @@
-package br.com.tcc.tecdam.voudoar.campanha;
+package br.com.tcc.tecdam.voudoar.campanha.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +14,10 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import br.com.tcc.tecdam.voudoar.R;
+import br.com.tcc.tecdam.voudoar.campanha.contrato.CampanhaMVP;
+import br.com.tcc.tecdam.voudoar.campanha.presenter.CampanhaPresenterImpl;
 
-public class CampanhaActivity extends AppCompatActivity implements CampanhaMVP.ViewResource{
+public class NovaCampanhaActivity extends AppCompatActivity implements CampanhaMVP.ViewResource {
 
     private CampanhaPresenterImpl presenter;
 
@@ -76,6 +78,7 @@ public class CampanhaActivity extends AppCompatActivity implements CampanhaMVP.V
             }
         });
 
+        /*
         passosTela.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int index, boolean feito) {
@@ -92,6 +95,7 @@ public class CampanhaActivity extends AppCompatActivity implements CampanhaMVP.V
                 return;
             }
         });
+        */
     }
 
     @Override

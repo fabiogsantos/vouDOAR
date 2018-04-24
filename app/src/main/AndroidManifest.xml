@@ -20,9 +20,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".campanha.CampanhaActivity"
-            android:label="@string/title_activity_campanha"
+            android:name=".campanha.activity.NovaCampanhaActivity"
+            android:label="@string/title_activity_nova_campanha"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".campanha.activity.ListaCampanhaActivity"
+            android:label="@string/title_activity_campanhas"/>
     </application>
 
 </manifest>

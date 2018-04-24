@@ -1,4 +1,4 @@
-package br.com.tcc.tecdam.voudoar.campanha;
+package br.com.tcc.tecdam.voudoar.campanha.contrato;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

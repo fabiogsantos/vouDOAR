@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_campanhas_sociais"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_send"
             android:title="Campanhas Sociais" />
         <item
             android:id="@+id/nav_gallery"
@@ -30,7 +30,7 @@
                 android:title="Donativo" />
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_menu_gallery"
                 android:title="Contato"/>
         </menu>
     </item>

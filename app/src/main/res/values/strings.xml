@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VouDOAR</string>
+    <string name="app_name">VouDoar</string>
     <string name="title_activity_main">Vou Doar</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -9,15 +9,20 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_campanha">CampanhaActivity</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_nova_campanha">Nova Campanha</string>
     <string name="botao_avancar">Avançar</string>
     <string name="botao_voltar">Voltar</string>
     <string name="botao_confirmar">Confirmar</string>
     <string name="aviso_implementar_campanhamvp_viewresource">, necessário implementar CampanhaMVP.ViewResource</string>
     <string name="aviso_escolha_tipo_campanha">Escolha o tipo da campanha!</string>
     <string name="aviso_valor_obrigatorio">Obrigatório!</string>
-    <string name="aviso_campanha_confirmada">Campanha confirmada! %s</string>
+    <string name="aviso_campanha_confirmada">Campanha confirmada!</string>
     <string name="aviso_campanha_incompleta">A campanha não foi informada completamente!</string>
     <string name="cancel">Cancelar</string>
+    <string name="campanha_nao_encontrada">Campanha não encontrada!</string>
+    <string name="layout_fragment_nao_reconhecido">layout do fragment com id %s não reconhecido!</string>
+    <string name="sobre_nos_motivacao_e_objetivo">Sobre nós (motivação e objetivo)</string>
+    <string name="atividades_acoes_realizadas">Atividades (ações realizadas)</string>
+    <string name="area_de_atuacao">Área de atuação</string>
+    <string name="title_activity_campanhas">Campanhas</string>
 </resources>
