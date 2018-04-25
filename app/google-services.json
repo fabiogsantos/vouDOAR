@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "303342344584",
+    "firebase_url": "https://voudoar-5e290.firebaseio.com",
+    "project_id": "voudoar-5e290",
+    "storage_bucket": "voudoar-5e290.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303342344584:android:48d21e863726dbe3",
+        "android_client_info": {
+          "package_name": "br.com.tcc.tecdam.voudoar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "303342344584-31qdidbncj3935pkbnqpsmp76cao2f8m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.tcc.tecdam.voudoar",
+            "certificate_hash": "ad7500d9bb4b8058240809a18e175b91b076e6b6"
+          }
+        },
+        {
+          "client_id": "303342344584-9jt20tb3n1ussajui5cvvb9rq1rj8rcl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA86PXkr7lb2ebkwm_Hxs9UpTt8ozS6g8Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "303342344584-9jt20tb3n1ussajui5cvvb9rq1rj8rcl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
