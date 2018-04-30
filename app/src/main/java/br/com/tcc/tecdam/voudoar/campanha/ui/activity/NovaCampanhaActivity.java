@@ -1,4 +1,4 @@
-package br.com.tcc.tecdam.voudoar.campanha.activity;
+package br.com.tcc.tecdam.voudoar.campanha.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

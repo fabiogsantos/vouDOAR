@@ -1,4 +1,4 @@
-package br.com.tcc.tecdam.voudoar.campanha.fragment;
+package br.com.tcc.tecdam.voudoar.campanha.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

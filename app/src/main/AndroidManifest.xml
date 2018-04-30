@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.tcc.tecdam.voudoar">
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,12 +25,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".campanha.activity.NovaCampanhaActivity"
+            android:name=".campanha.ui.activity.NovaCampanhaActivity"
             android:label="@string/title_activity_nova_campanha"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".campanha.activity.ListaCampanhaActivity"
-            android:label="@string/title_activity_campanhas"/>
+            android:name=".campanha.ui.activity.ListaCampanhasActivity"
+            android:label="@string/title_activity_campanhas" />
 
         <service android:name=".firebase.VouDoarInstanceIdService">
             <intent-filter>
@@ -33,6 +38,9 @@
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"></activity>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,14 @@ import br.com.tcc.tecdam.voudoar.domain.Campanha;
 
 public class VouDoarDAO extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "VouDoar";
+
+    private Context context;
 
     public VouDoarDAO(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -32,6 +36,8 @@ public class VouDoarDAO extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL(Campanha.SQL_DROP_TABLE);
+        sqLiteDatabase.execSQL(Campanha.SQL_CREATE_TABLE);
     }
 
     public void gravaCampanha(Campanha campanha) {

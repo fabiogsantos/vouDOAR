@@ -1,4 +1,4 @@
-package br.com.tcc.tecdam.voudoar.campanha.fragment;
+package br.com.tcc.tecdam.voudoar.campanha.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,11 +7,10 @@ import android.view.ViewGroup;
 
 import br.com.tcc.tecdam.voudoar.R;
 
-public class CampanhaNomeFragment extends CampanhaFragment {
+public class CampanhaSobreFragment extends CampanhaFragment {
 
-    public static CampanhaNomeFragment newInstance() {
-        CampanhaNomeFragment fragment = new CampanhaNomeFragment();
-        return fragment;
+    public static CampanhaSobreFragment newInstance() {
+        return new CampanhaSobreFragment();
     }
 
     @Override
@@ -23,6 +22,6 @@ public class CampanhaNomeFragment extends CampanhaFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_campanha_nome, container, false);
+        return inflater.inflate(R.layout.fragment_campanha_sobre, container, false);
     }
 }

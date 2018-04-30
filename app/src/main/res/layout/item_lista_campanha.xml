@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_item_lista_campanha"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="230dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_item_lista_campanha"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/descricao_imagem_campanha"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/legenda_item_lista_campanha"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/person" />
+
+        <View
+            android:id="@+id/legenda_item_lista_campanha"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/image_item_lista_campanha"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/titulo_item_lista_campanha"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            tools:text="Titulo da Campanha"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            app:layout_constraintBottom_toBottomOf="@+id/legenda_item_lista_campanha"
+            app:layout_constraintEnd_toEndOf="@+id/legenda_item_lista_campanha"
+            app:layout_constraintStart_toStartOf="@+id/legenda_item_lista_campanha"
+            app:layout_constraintTop_toTopOf="@+id/legenda_item_lista_campanha"/>
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>

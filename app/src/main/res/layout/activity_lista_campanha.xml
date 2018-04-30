@@ -4,8 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.tcc.tecdam.voudoar.campanha.activity.ListaCampanhaActivity">
+    tools:context=".campanha.ui.activity.ListaCampanhasActivity">
 
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/background_filantropia"
+        android:scaleType="centerCrop"
+        android:alpha="0.3"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -20,21 +30,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:pressedTranslationZ="12dp"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@drawable/ic_add_white_24dp"
+        tools:ignore="VectorDrawableCompat" />
 
-    <ListView
-        android:id="@+id/campanha_listview"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/lista_campanha_recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </ListView>
+        app:layout_constraintTop_toTopOf="parent"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="true">
+    </android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>

@@ -1,4 +1,4 @@
-package br.com.tcc.tecdam.voudoar.campanha.fragment;
+package br.com.tcc.tecdam.voudoar.campanha.ui.fragment;
 
 
 import android.app.DatePickerDialog;
@@ -14,7 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.Calendar;
-import java.sql.Date;
+import java.util.Date;
 
 import br.com.tcc.tecdam.voudoar.R;
 import br.com.tcc.tecdam.voudoar.util.DataUtil;

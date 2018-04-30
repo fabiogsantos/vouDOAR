@@ -1,4 +1,4 @@
-package br.com.tcc.tecdam.voudoar.campanha.fragment;
+package br.com.tcc.tecdam.voudoar.campanha.ui.fragment;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

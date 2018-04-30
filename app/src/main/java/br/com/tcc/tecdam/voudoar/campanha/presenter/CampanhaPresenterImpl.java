@@ -10,15 +10,15 @@ import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.Calendar;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import br.com.tcc.tecdam.voudoar.R;
-import br.com.tcc.tecdam.voudoar.campanha.activity.NovaCampanhaActivity;
-import br.com.tcc.tecdam.voudoar.campanha.fragment.CampanhaNomeFragment;
-import br.com.tcc.tecdam.voudoar.campanha.fragment.CampanhaPeriodoFragment;
-import br.com.tcc.tecdam.voudoar.campanha.fragment.CampanhaSobreFragment;
-import br.com.tcc.tecdam.voudoar.campanha.fragment.CampanhaTipoFragment;
+import br.com.tcc.tecdam.voudoar.campanha.ui.activity.NovaCampanhaActivity;
+import br.com.tcc.tecdam.voudoar.campanha.ui.fragment.CampanhaNomeFragment;
+import br.com.tcc.tecdam.voudoar.campanha.ui.fragment.CampanhaPeriodoFragment;
+import br.com.tcc.tecdam.voudoar.campanha.ui.fragment.CampanhaSobreFragment;
+import br.com.tcc.tecdam.voudoar.campanha.ui.fragment.CampanhaTipoFragment;
 import br.com.tcc.tecdam.voudoar.campanha.contrato.CampanhaMVP;
 import br.com.tcc.tecdam.voudoar.dao.VouDoarDAO;
 import br.com.tcc.tecdam.voudoar.domain.Campanha;
@@ -301,7 +301,7 @@ public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
                 fragment = CampanhaPeriodoFragment.newInstance();
                 break;
             default:
-                throw new RuntimeException(String.format(novaCampanhaActivity.getString(R.string.layout_fragment_nao_reconhecido), new String[]{String.valueOf(idFragment)}));
+                throw new RuntimeException(String.format(novaCampanhaActivity.getString(R.string.layout_fragment_nao_reconhecido), (Object) new String[]{String.valueOf(idFragment)}));
         }
         return fragment;
     }

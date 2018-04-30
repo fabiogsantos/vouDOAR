@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import br.com.tcc.tecdam.voudoar.campanha.activity.ListaCampanhaActivity;
+import br.com.tcc.tecdam.voudoar.campanha.ui.activity.ListaCampanhasActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        chamaListaCampanha();
     }
 
     @Override
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void chamaListaCampanha() {
-        Intent intent = new Intent(MainActivity.this, ListaCampanhaActivity.class);
+        Intent intent = new Intent(MainActivity.this, ListaCampanhasActivity.class);
         startActivity(intent);
     }
 }

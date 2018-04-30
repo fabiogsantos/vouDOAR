@@ -5,8 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="br.com.tcc.tecdam.voudoar.campanha.activity.NovaCampanhaActivity"
+    tools:context=".campanha.ui.activity.NovaCampanhaActivity"
     tools:showIn="@layout/activity_campanha">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/background_filantropia"
+        android:scaleType="centerCrop"
+        android:alpha="0.3"/>
 
     <SeekBar
         android:id="@+id/campanha_seekBar"
