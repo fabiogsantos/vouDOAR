@@ -4,14 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
 import br.com.tcc.tecdam.voudoar.R;
+import br.com.tcc.tecdam.voudoar.campanha.contrato.CampanhaMVP;
 import br.com.tcc.tecdam.voudoar.campanha.ui.recyclerview.adapter.ListaCampanhasAdapter;
 import br.com.tcc.tecdam.voudoar.dao.VouDoarDAO;
 import br.com.tcc.tecdam.voudoar.domain.Campanha;
@@ -29,15 +30,7 @@ public class ListaCampanhasActivity extends AppCompatActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ListaCampanhasActivity.this, NovaCampanhaActivity.class);
-                //intent.putExtra(NovaCampanhaActivity.INTENT_KEY_ID_CAMPANHA,1);
-                /*Campanha campanha = new Campanha(0, 8, "RIC 2018", "",
-                        new Date(2018, 9, 01), new Date(2018, 12, 25),
-                        "Distribuição de cestas básicas natalinas para famílias carentes previamente cadastradas.",
-                        "Arrecadação de Alimentos em pontos de coletas e no porta a porta, montagem das cestas e entrega das Cestas as famílias!",
-                        "", "PE", "Paudalho, Carpina e Recife", "", "", "", "");
-                intent.putExtra(CampanhaMVP.INTENT_KEY_CAMPANHA,campanha);*/
-                startActivity(intent);
+                ChamaManutencaoCampanha(null);
             }
         });
 
@@ -45,8 +38,29 @@ public class ListaCampanhasActivity extends AppCompatActivity{
         configuraRecyclerView(campanhas);
     }
 
+    private void ChamaManutencaoCampanha(Campanha campanha) {
+        Intent intent = new Intent(ListaCampanhasActivity.this, NovaCampanhaActivity.class);
+        //intent.putExtra(NovaCampanhaActivity.INTENT_KEY_ID_CAMPANHA,1);
+                /*Campanha campanha = new Campanha(0, 8, "RIC 2018", "",
+                        new Date(2018, 9, 01), new Date(2018, 12, 25),
+                        "Distribuição de cestas básicas natalinas para famílias carentes previamente cadastradas.",
+                        "Arrecadação de Alimentos em pontos de coletas e no porta a porta, montagem das cestas e entrega das Cestas as famílias!",
+                        "", "PE", "Paudalho, Carpina e Recife", "", "", "", "");*/
+        if (campanha != null)
+            intent.putExtra(CampanhaMVP.INTENT_KEY_CAMPANHA,campanha);
+
+        startActivity(intent);
+    }
+
     private void configuraRecyclerView(List<Campanha> campanhas) {
         listaCampanhasAdapter = new ListaCampanhasAdapter(this, campanhas);
+
+        listaCampanhasAdapter.setOnItemClickListner(new ListaCampanhasAdapter.OnClickItemListaCampanhaListner() {
+            @Override
+            public void OnItemClick(Campanha campanha) {
+                ChamaManutencaoCampanha(campanha);
+            }
+        });
 
         RecyclerView campanhaListView = findViewById(R.id.lista_campanha_recyclerview);
         campanhaListView.setAdapter(listaCampanhasAdapter);

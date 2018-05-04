@@ -2,9 +2,8 @@ package br.com.tcc.tecdam.voudoar.domain;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.os.Parcel;
-import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,7 +11,7 @@ import java.util.UUID;
  * Created by fabio.goncalves on 12/04/2018.
  */
 
-public class Campanha implements Parcelable{
+public class Campanha implements Serializable {
 
     public static final String TABLE_NAME = "Campanhas";
     public static final String COLUMN_ID = "id";
@@ -115,37 +114,86 @@ public class Campanha implements Parcelable{
         this.sobreSolucao  = cursor.getString(cursor.getColumnIndex(COLUMN_SOBRE_SOLUCAO));
     }
 
-    protected Campanha(Parcel in) {
-        id = in.readString();
-        if (in.readByte() == 0) {
-            tipo = null;
-        } else {
-            tipo = in.readInt();
-        }
-        titulo = in.readString();
-        frase = in.readString();
-        objetivo = in.readString();
-        atividades = in.readString();
-        publicoAlvo = in.readString();
-        ufAtuacao = in.readString();
-        areaAtuacao = in.readString();
-        imagem = in.readString();
-        corFundo = in.readString();
-        sobreProblema = in.readString();
-        sobreSolucao = in.readString();
-    }
-
-    public static final Creator<Campanha> CREATOR = new Creator<Campanha>() {
-        @Override
-        public Campanha createFromParcel(Parcel in) {
-            return new Campanha(in);
-        }
-
-        @Override
-        public Campanha[] newArray(int size) {
-            return new Campanha[size];
-        }
-    };
+//    public static final Creator<Campanha> CREATOR = new Creator<Campanha>() {
+//        @Override
+//        public Campanha createFromParcel(Parcel in) {
+//            return new Campanha(in);
+//        }
+//
+//        @Override
+//        public Campanha[] newArray(int size) {
+//            return new Campanha[size];
+//        }
+//    };
+//
+//    protected Campanha(Parcel in) {
+//        this.id = in.readString();
+//        if (in.readByte() == 0) {
+//            this.tipo = null;
+//        } else {
+//            this.tipo = in.readInt();
+//        }
+//        this.titulo = in.readString();
+//        this.frase = in.readString();
+//        if (in.readByte() == 0) {
+//            this.dataInicio = null;
+//        } else {
+//            this.dataInicio = new Date(in.readLong());
+//        }
+//        if (in.readByte() == 0) {
+//            this.dataFinal = null;
+//        } else {
+//            this.dataFinal = new Date(in.readLong());
+//        }
+//        this.objetivo = in.readString();
+//        this.atividades = in.readString();
+//        this.publicoAlvo = in.readString();
+//        this.ufAtuacao = in.readString();
+//        this.areaAtuacao = in.readString();
+//        this.imagem = in.readString();
+//        this.corFundo = in.readString();
+//        this.sobreProblema = in.readString();
+//        this.sobreSolucao = in.readString();
+//    }
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel parcel, int i) {
+//        parcel.writeString(id);
+//        if (tipo == null) {
+//            parcel.writeByte((byte) 0);
+//        } else {
+//            parcel.writeByte((byte) 1);
+//            parcel.writeInt(tipo);
+//        }
+//        parcel.writeString(titulo);
+//        parcel.writeString(frase);
+//        if (this.dataInicio == null) {
+//            parcel.writeByte((byte) 0);
+//        } else {
+//            parcel.writeByte((byte) 1);
+//            parcel.writeLong(this.dataInicio.getTime());
+//        }
+//        if (this.dataFinal == null) {
+//            parcel.writeByte((byte) 0);
+//        } else {
+//            parcel.writeByte((byte) 1);
+//            parcel.writeLong(this.dataFinal.getTime());
+//        }
+//        parcel.writeString(objetivo);
+//        parcel.writeString(atividades);
+//        parcel.writeString(publicoAlvo);
+//        parcel.writeString(ufAtuacao);
+//        parcel.writeString(areaAtuacao);
+//        parcel.writeString(imagem);
+//        parcel.writeString(corFundo);
+//        parcel.writeString(sobreProblema);
+//        parcel.writeString(sobreSolucao);
+//    }
 
     public String getId() {
         return id;
@@ -301,32 +349,5 @@ public class Campanha implements Parcelable{
         dados.put(COLUMN_SOBRE_PROBLEMA, this.getSobreProblema() );
         dados.put(COLUMN_SOBRE_SOLUCAO, this.getSobreSolucao() );
         return dados;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(id);
-        if (tipo == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeInt(tipo);
-        }
-        parcel.writeString(titulo);
-        parcel.writeString(frase);
-        parcel.writeString(objetivo);
-        parcel.writeString(atividades);
-        parcel.writeString(publicoAlvo);
-        parcel.writeString(ufAtuacao);
-        parcel.writeString(areaAtuacao);
-        parcel.writeString(imagem);
-        parcel.writeString(corFundo);
-        parcel.writeString(sobreProblema);
-        parcel.writeString(sobreSolucao);
     }
 }

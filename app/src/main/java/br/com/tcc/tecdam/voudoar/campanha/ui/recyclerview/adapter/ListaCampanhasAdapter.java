@@ -21,10 +21,15 @@ public class ListaCampanhasAdapter extends RecyclerView.Adapter<ListaCampanhasAd
 
     private Context context;
     private List<Campanha> campanhas;
+    private OnClickItemListaCampanhaListner onItemClickListner;
 
     public ListaCampanhasAdapter(Context context, List<Campanha> campanhas) {
         this.context = context;
         this.campanhas = campanhas;
+    }
+
+    public void setOnItemClickListner(OnClickItemListaCampanhaListner onItemClickListner) {
+        this.onItemClickListner = onItemClickListner;
     }
 
     @Override
@@ -52,10 +57,25 @@ public class ListaCampanhasAdapter extends RecyclerView.Adapter<ListaCampanhasAd
             super(itemView);
             titulo = itemView.findViewById(R.id.titulo_item_lista_campanha);
             imagem = itemView.findViewById(R.id.image_item_lista_campanha);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   if (onItemClickListner != null) {
+                       Campanha campanha = campanhas.get(getAdapterPosition());
+                       onItemClickListner.OnItemClick(campanha);
+                   }
+                }
+            });
+
         }
 
         public void bind(Campanha campanha) {
             titulo.setText(campanha.getTitulo());
         }
+    }
+
+    public interface OnClickItemListaCampanhaListner {
+        void OnItemClick(Campanha campanha);
     }
 }

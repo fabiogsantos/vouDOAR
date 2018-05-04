@@ -2,6 +2,8 @@ package br.com.tcc.tecdam.voudoar.campanha.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,12 +15,15 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import java.io.Serializable;
+
 import br.com.tcc.tecdam.voudoar.R;
 import br.com.tcc.tecdam.voudoar.campanha.contrato.CampanhaMVP;
 import br.com.tcc.tecdam.voudoar.campanha.presenter.CampanhaPresenterImpl;
 
 public class NovaCampanhaActivity extends AppCompatActivity implements CampanhaMVP.ViewResource {
 
+    public static final String KEY_PRESENTER = "KEY_PRESENTER";
     private CampanhaPresenterImpl presenter;
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
@@ -37,11 +42,15 @@ public class NovaCampanhaActivity extends AppCompatActivity implements CampanhaM
 
             Intent intent = getIntent();
             Bundle extras = intent.getExtras();
-            Long idCampanha = intent.getLongExtra(CampanhaMVP.INTENT_KEY_ID_CAMPANHA, 0);
-            if (idCampanha > 0) {
-              extras.putLong(CampanhaMVP.INTENT_KEY_ID_CAMPANHA,idCampanha);
+            if (intent.hasExtra(CampanhaMVP.INTENT_KEY_ID_CAMPANHA)) {
+                String idCampanha = intent.getStringExtra(CampanhaMVP.INTENT_KEY_ID_CAMPANHA);
+                if (!idCampanha.isEmpty()) {
+                    extras.putString(CampanhaMVP.INTENT_KEY_ID_CAMPANHA, idCampanha);
+                }
             }
             presenter.InicializaCampanha(extras);
+        } else {
+            presenter.setView(this);
         }
 
         InicializaControles();
@@ -96,6 +105,18 @@ public class NovaCampanhaActivity extends AppCompatActivity implements CampanhaM
             }
         });
         */
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(KEY_PRESENTER,presenter);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        presenter = (CampanhaPresenterImpl) savedInstanceState.getSerializable(KEY_PRESENTER);
     }
 
     @Override
@@ -162,4 +183,30 @@ public class NovaCampanhaActivity extends AppCompatActivity implements CampanhaM
     public void Fecha() {
         this.finish();
     }
+
+//    public static final Creator<NovaCampanhaActivity> CREATOR = new Creator<NovaCampanhaActivity>() {
+//        @Override
+//        public NovaCampanhaActivity createFromParcel(Parcel in) {
+//            return new NovaCampanhaActivity(in);
+//        }
+//
+//        @Override
+//        public NovaCampanhaActivity[] newArray(int size) {
+//            return new NovaCampanhaActivity[size];
+//        }
+//    };
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    protected NovaCampanhaActivity(Parcel in) {
+//        presenter = in.readParcelable(CampanhaPresenterImpl.class.getClassLoader());
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel parcel, int i) {
+//        parcel.writeParcelable(presenter, i);
+//    }
 }

@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_campanhas_sociais"
             android:icon="@drawable/ic_menu_send"
-            android:title="Campanhas Sociais" />
+            android:title="Campanhas" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"

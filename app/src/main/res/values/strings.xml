@@ -25,4 +25,5 @@
     <string name="atividades_acoes_realizadas">Atividades (ações realizadas)</string>
     <string name="area_de_atuacao">Área de atuação</string>
     <string name="title_activity_campanhas">Campanhas</string>
+    <string name="descricao_imagem_campanha">Imagem da campanha</string>
 </resources>

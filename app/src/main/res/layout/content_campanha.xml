@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/background_filantropia"
         android:scaleType="centerCrop"
-        android:alpha="0.3"/>
+        android:alpha="0.2"/>
 
     <SeekBar
         android:id="@+id/campanha_seekBar"

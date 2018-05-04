@@ -8,18 +8,19 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import br.com.tcc.tecdam.voudoar.R;
+import br.com.tcc.tecdam.voudoar.campanha.contrato.CampanhaMVP;
 import br.com.tcc.tecdam.voudoar.campanha.ui.activity.NovaCampanhaActivity;
 import br.com.tcc.tecdam.voudoar.campanha.ui.fragment.CampanhaNomeFragment;
 import br.com.tcc.tecdam.voudoar.campanha.ui.fragment.CampanhaPeriodoFragment;
 import br.com.tcc.tecdam.voudoar.campanha.ui.fragment.CampanhaSobreFragment;
 import br.com.tcc.tecdam.voudoar.campanha.ui.fragment.CampanhaTipoFragment;
-import br.com.tcc.tecdam.voudoar.campanha.contrato.CampanhaMVP;
 import br.com.tcc.tecdam.voudoar.dao.VouDoarDAO;
 import br.com.tcc.tecdam.voudoar.domain.Campanha;
 import br.com.tcc.tecdam.voudoar.util.DataUtil;
@@ -28,15 +29,15 @@ import br.com.tcc.tecdam.voudoar.util.DataUtil;
  * Created by fabio.goncalves on 09/04/2018.
  */
 
-public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
+public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource, Serializable {
 
-    private List<Integer> listFragments = Arrays.asList(
+    private final List<Integer> listFragments = Arrays.asList(
             R.layout.fragment_campanha_tipo,
             R.layout.fragment_campanha_nome,
             R.layout.fragment_campanha_sobre,
             R.layout.fragment_campanha_periodo);
 
-    private final NovaCampanhaActivity novaCampanhaActivity;
+    private NovaCampanhaActivity novaCampanhaActivity;
     private CampanhaMVP.ViewResource viewResource;
 
     private Campanha campanha;
@@ -245,9 +246,14 @@ public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
     @Override
     public void InicializaCampanha(Bundle extras) {
         if (extras != null) {
-            campanha = extras.getParcelable(CampanhaMVP.INTENT_KEY_CAMPANHA);
-            String idCampanha = extras.getString(CampanhaMVP.INTENT_KEY_ID_CAMPANHA);
-
+            String idCampanha = "";
+            campanha = null;
+            if (extras.containsKey(CampanhaMVP.INTENT_KEY_CAMPANHA)) {
+                campanha = (Campanha) extras.getSerializable(CampanhaMVP.INTENT_KEY_CAMPANHA);
+            }
+            if (extras.containsKey(CampanhaMVP.INTENT_KEY_ID_CAMPANHA)) {
+                idCampanha = extras.getString(CampanhaMVP.INTENT_KEY_ID_CAMPANHA, "");
+            }
             if (campanha == null) {
                 // Informado um id ja cadastrado
                 if (! idCampanha.isEmpty()) {
@@ -361,4 +367,38 @@ public class CampanhaPresenterImpl implements CampanhaMVP.PresenterResource {
 
         return operacaoOk;
     }
+
+    public void setView(NovaCampanhaActivity view) {
+        this.novaCampanhaActivity = view;
+    }
+
+//    public static final Creator<CampanhaPresenterImpl> CREATOR = new Creator<CampanhaPresenterImpl>() {
+//        @Override
+//        public CampanhaPresenterImpl createFromParcel(Parcel in) {
+//            return new CampanhaPresenterImpl(in);
+//        }
+//
+//        @Override
+//        public CampanhaPresenterImpl[] newArray(int size) {
+//            return new CampanhaPresenterImpl[size];
+//        }
+//    };
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    protected CampanhaPresenterImpl(Parcel in) {
+//        novaCampanhaActivity = in.readParcelable(NovaCampanhaActivity.class.getClassLoader());
+//        campanha = in.readParcelable(Campanha.class.getClassLoader());
+//        ordPassoAtual = in.readInt();
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel parcel, int i) {
+//        parcel.writeParcelable(novaCampanhaActivity, i);
+//        parcel.writeParcelable(campanha, i);
+//        parcel.writeInt(ordPassoAtual);
+//    }
 }
