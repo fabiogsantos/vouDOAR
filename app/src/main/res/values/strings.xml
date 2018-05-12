@@ -2,13 +2,15 @@
     <string name="app_name">VouDoar</string>
     <string name="title_activity_main">Vou Doar</string>
 
+    <string name="facebook_app_id">2094335890849582</string>
+    <string name="fb_login_protocol_scheme">fb2094335890849582</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Olá mundo!</string>
     <string name="title_activity_nova_campanha">Nova Campanha</string>
     <string name="botao_avancar">Avançar</string>
     <string name="botao_voltar">Voltar</string>
@@ -26,4 +28,5 @@
     <string name="area_de_atuacao">Área de atuação</string>
     <string name="title_activity_campanhas">Campanhas</string>
     <string name="descricao_imagem_campanha">Imagem da campanha</string>
+    <string name="no_email_perm">Permissão de e-mail não concedida</string>
 </resources>

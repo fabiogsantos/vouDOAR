@@ -1,8 +1,9 @@
 package br.com.tcc.tecdam.voudoar;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,27 +14,41 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.squareup.picasso.Picasso;
 
 import br.com.tcc.tecdam.voudoar.campanha.ui.activity.ListaCampanhasActivity;
+import br.com.tcc.tecdam.voudoar.facebook.callbacks.GetUserCallback;
+import br.com.tcc.tecdam.voudoar.facebook.entities.User;
+import br.com.tcc.tecdam.voudoar.facebook.requests.UserRequest;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GetUserCallback.IGetUserResponse {
 
-    private static final int RC_SIGN_IN = 1000;
+    private static final int RC_LOGIN_GOOGLE = 1000;
     private GoogleSignInClient mGoogleSignInClient;
     private NavigationView navigationView;
+    private CallbackManager callbackManager;
+    private View headerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,21 +63,95 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        configuraNavigatorBar();
 
-        View headerView = navigationView.getHeaderView(0);
+        configuraLoginGoogle();
 
-        // Set the dimensions of the sign-in button.
-        SignInButton signInButton = headerView.findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_ICON_ONLY);
-        signInButton.setOnClickListener(new View.OnClickListener() {
+        configuraLoginFacebook();
+
+        configuraLogout();
+
+        chamaListaCampanha();
+    }
+
+    private void configuraLogout() {
+        if (headerView == null) {
+            configuraNavigatorBar();
+        }
+
+        Button logout = headerView.findViewById(R.id.logout_button);
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn();
+                logoutGoogle();
+                logoutFacebook();
+            }
+        });
+    }
+
+    private void logoutFacebook() {
+        LoginManager.getInstance().logOut();
+        clearProfileUserUI();
+    }
+
+    private void configuraLoginFacebook() {
+        if (headerView == null) {
+            configuraNavigatorBar();
+        }
+
+        LoginButton loginButton = (LoginButton) headerView.findViewById(R.id.login_facebook_button);
+        loginButton.setReadPermissions("email");
+        // If using in a fragment
+        //loginButton.setFragment(this);
+
+        // Callback registration
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(MainActivity.this,"Sucesso login Facebook", Toast.LENGTH_SHORT).show();
+                onLoginFacebookResult();
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+                Toast.makeText(MainActivity.this,"Login Facebook cancelado", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                Log.w("SignInFacebook", "signInResult:failed code=" + exception.getMessage());
+                Toast.makeText(MainActivity.this,exception.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken != null && !accessToken.isExpired()) {
+            onLoginFacebookResult();
+        }
+    }
+
+    private void configuraNavigatorBar() {
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        headerView = navigationView.getHeaderView(0);
+    }
+
+    private void configuraLoginGoogle() {
+        if (headerView == null) {
+            configuraNavigatorBar();
+        }
+
+        // Set the dimensions of the sign-in button.
+        SignInButton loginGoogleButton = headerView.findViewById(R.id.login_google_button);
+        loginGoogleButton.setSize(SignInButton.SIZE_ICON_ONLY);
+        loginGoogleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginGoogle();
+            }
+        });
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -76,14 +165,22 @@ public class MainActivity extends AppCompatActivity
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        updateUI(account);
-
-        chamaListaCampanha();
+        updateProfileUserUI(account);
     }
 
-    private void signIn() {
+    private void loginGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        startActivityForResult(signInIntent, RC_LOGIN_GOOGLE);
+    }
+
+    private void logoutGoogle() {
+        mGoogleSignInClient.revokeAccess()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        clearProfileUserUI();
+                    }
+                });
     }
 
     @Override
@@ -91,46 +188,88 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_LOGIN_GOOGLE) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            onLoginGoogleResult(task);
+        } else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> task) {
+    private void onLoginGoogleResult(Task<GoogleSignInAccount> task) {
         try {
             GoogleSignInAccount account = task.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
-            updateUI(account);
+            updateProfileUserUI(account);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("SignIn", "signInResult:failed code=" + e.getStatusCode());
-            updateUI(null);
+            //updateProfileUserUI(null);
         }
     }
 
-    private void updateUI(GoogleSignInAccount account) {
+    private void onLoginFacebookResult() {
+        UserRequest.makeUserRequest(new GetUserCallback(MainActivity.this).getCallback());
+    }
 
-       View headerView = navigationView.getHeaderView(0);
+    private void clearProfileUserUI() {
+        updateProfileUserUI("","",null);
+    }
 
-       TextView  email = headerView.findViewById(R.id.nav_header_main_email);
-       TextView nome = headerView.findViewById(R.id.nav_header_main_nome);
-       ImageView imagem = headerView.findViewById(R.id.nav_header_main_imageView);
+    private void updateProfileUserUI(GoogleSignInAccount account) {
+        String email  = account.getEmail();
+        String nome   = account.getDisplayName();
+        Uri urlImagem = account.getPhotoUrl();
 
-       if (account != null) {
-           email.setText(account.getEmail());
-           nome.setText(account.getDisplayName());
+        updateProfileUserUI(email,nome,urlImagem);
+    }
 
-           Picasso.with(this)
-                   .load(account.getPhotoUrl())
-                   .placeholder(R.drawable.loading)
-                   .error(R.drawable.loading_error)
-                   .into(imagem);
-       }
+    private void updateProfileUserUI(User user) {
+        String nome   = user.getName();
+        String email = "";
+        if (user.getEmail() == null) {
+            email = getString(R.string.no_email_perm);
+        } else {
+            email = user.getEmail();
+        }
+        Uri urlImagem = user.getPicture();
+        updateProfileUserUI(email,nome,urlImagem);
+    }
+
+    private void updateProfileUserUI(String email, String nome, Uri urlImagem) {
+        if (headerView == null) {
+            configuraNavigatorBar();
+        }
+
+        TextView campoEmail = headerView.findViewById(R.id.nav_header_main_email);
+        TextView campoNome = headerView.findViewById(R.id.nav_header_main_nome);
+        ImageView campoImagem = headerView.findViewById(R.id.nav_header_main_imageView);
+
+        if (campoEmail != null) {
+            campoEmail.setText(email);
+        } else {
+            campoEmail.setText("Anônimo");
+        }
+
+        if (campoNome != null) {
+            campoNome.setText(nome);
+        }
+
+        if (campoImagem != null) {
+            if (urlImagem == null) {
+                campoImagem.setImageResource(R.drawable.person);
+            } else {
+                Picasso.with(this)
+                        .load(urlImagem)
+                        .placeholder(R.drawable.loading)
+                        .error(R.drawable.loading_error)
+                        .into(campoImagem);
+            }
+        }
     }
 
     @Override
@@ -193,5 +332,10 @@ public class MainActivity extends AppCompatActivity
     private void chamaListaCampanha() {
         Intent intent = new Intent(MainActivity.this, ListaCampanhasActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onCompleted(User user) {
+        updateProfileUserUI(user);
     }
 }

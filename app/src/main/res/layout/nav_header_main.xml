@@ -48,9 +48,24 @@
         android:layout_weight="2">
 
         <com.google.android.gms.common.SignInButton
-            android:id="@+id/sign_in_button"
+            android:id="@+id/login_google_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="35dp" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_facebook_button"
+            android:layout_width="28dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp" />
+
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="Logout"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="10dp" />
     </LinearLayout>
 
 </LinearLayout>
