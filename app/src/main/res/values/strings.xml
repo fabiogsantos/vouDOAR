@@ -29,4 +29,5 @@
     <string name="title_activity_campanhas">Campanhas</string>
     <string name="descricao_imagem_campanha">Imagem da campanha</string>
     <string name="no_email_perm">Permissão de e-mail não concedida</string>
+    <string name="opcao_nao_acessivel">Opção não está acessível!</string>
 </resources>
