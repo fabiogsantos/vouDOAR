@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -118,8 +119,6 @@ public class MainActivity extends AppCompatActivity
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //logoutGoogle();
-                //logoutFacebook();
                 logoutFirebaseAuth();
                 clearProfileUserUI();
             }
@@ -131,13 +130,7 @@ public class MainActivity extends AppCompatActivity
             configuraNavigatorBar();
         }
 
-        // Callback registration
         callbackManager = CallbackManager.Factory.create();
-
-        //LoginButton loginButtonFacebook = (LoginButton) headerView.findViewById(R.id.login_facebook_button);
-        //loginButtonFacebook.setReadPermissions("email", "public_profile");
-        // If using in a fragment
-        //loginButtonFacebook.setFragment(this);
 
         Button loginButtonFacebook = headerView.findViewById(R.id.login_facebook_button);
         loginButtonFacebook.setOnClickListener(this);
@@ -162,11 +155,6 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this,exception.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-
-//        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-//        if (accessToken != null && !accessToken.isExpired()) {
-//            firebaseAuthWithFacebook(accessToken);
-//        }
     }
 
     @NonNull
@@ -210,29 +198,11 @@ public class MainActivity extends AppCompatActivity
                 .requestEmail()
                 .build();
 
-        // Build a GoogleSignInClient with the options specified by gso.
-        //mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-        //GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        //updateProfileUserUI(account);
     }
-
-//    private void logoutGoogle() {
-//        mGoogleSignInClient.revokeAccess()
-//                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        clearProfileUserUI();
-//                    }
-//                });
-//    }
 
     private void logoutFirebaseAuth() {
         firebaseAuth.signOut();
@@ -246,11 +216,6 @@ public class MainActivity extends AppCompatActivity
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_LOGIN_GOOGLE) {
-
-            //Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            //onLoginGoogleResult(task);
-
-            //logoutFirebaseAuth();
 
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
@@ -274,7 +239,7 @@ public class MainActivity extends AppCompatActivity
 
     private void firebaseAuthWithCredential(AuthCredential credential) {
 
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        FirebaseUser currentUser = pegaUsuarioLogado();
 
         // Se usuário ja conectado permite escolher outro usuário
         if (currentUser != null) {
@@ -309,77 +274,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-//    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-//        //Log.d(LOG_SIGN_IN, "firebaseAuthWithGoogle:" + acct.getId());
-//
-//        final AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-//
-//        firebaseAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            Log.d(LOG_SIGN_IN, "signInWithCredential:success");
-//                        } else {
-//                            Log.w(LOG_SIGN_IN, "signInWithCredential:failure", task.getException());
-//                            Toast.makeText(MainActivity.this, "Authentication failed.",
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-//    }
-
-//    private void onLoginGoogleResult(Task<GoogleSignInAccount> task) {
-//        try {
-//            GoogleSignInAccount account = task.getResult(ApiException.class);
-//
-//            // Signed in successfully, show authenticated UI.
-//            //updateProfileUserUI(account);
-//        } catch (ApiException e) {
-//            // The ApiException status code indicates the detailed failure reason.
-//            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-//            Log.w(LOG_SIGN_IN, "signInResult:failed code=" + e.getStatusCode());
-//            //clearProfileUserUI();
-//        }
-//        updateProfileUserUI();
-//    }
-
-//    private void firebaseAuthWithFacebook(AccessToken token) {
-//
-//        //UserRequest.makeUserRequest(new GetUserCallback(MainActivity.this).getCallback());
-//
-//        Log.d(LOG_SIGN_IN, "handleFacebookAccessToken:" + token);
-//
-//        //logoutFirebaseAuth();
-//
-//        final AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-//        firebaseAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            // Sign in success, update UI with the signed-in user's information
-//                            Log.d(LOG_SIGN_IN, "signInWithCredential:success");
-//                            //FirebaseUser user = firebaseAuth.getCurrentUser();
-//                            //updateProfileUserUI(user);
-//                        } else {
-//                            // If sign in fails, display a message to the user.
-//                            Log.w(LOG_SIGN_IN, "signInWithCredential:failure", task.getException());
-//                            Toast.makeText(MainActivity.this, "Authentication failed.",
-//                                    Toast.LENGTH_SHORT).show();
-//                            //clearProfileUserUI();
-//                        }
-//                    }
-//                });
-//    }
-
-//    private void logoutFacebook() {
-//        LoginManager.getInstance().logOut();
-//        clearProfileUserUI();
-//    }
+    private FirebaseUser pegaUsuarioLogado() {
+        return firebaseAuth.getCurrentUser();
+    }
 
     private void updateProfileUserUI() {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        FirebaseUser user = pegaUsuarioLogado();
         if (user != null) {
             Log.d(LOG_SIGN_IN, "onAuthStateChanged:signed_in:" + user.getUid());
             updateProfileUserUI(user);
@@ -402,28 +302,6 @@ public class MainActivity extends AppCompatActivity
             updateProfileUserUI(email, nome, urlImagem);
         }
     }
-
-//    private void updateProfileUserUI(GoogleSignInAccount account) {
-//        if (account != null) {
-//            String email = account.getEmail();
-//            String nome = account.getDisplayName();
-//            Uri urlImagem = account.getPhotoUrl();
-//
-//            updateProfileUserUI(email, nome, urlImagem);
-//        }
-//    }
-//
-//    private void updateProfileUserUI(User user) {
-//        String nome   = user.getName();
-//        String email = "";
-//        if (user.getEmail() == null) {
-//            email = getString(R.string.no_email_perm);
-//        } else {
-//            email = user.getEmail();
-//        }
-//        Uri urlImagem = user.getPicture();
-//        updateProfileUserUI(email,nome,urlImagem);
-//    }
 
     private void updateProfileUserUI(String email, String nome, Uri urlImagem) {
         if (headerView == null) {
@@ -547,6 +425,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loginFacebook() {
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email","public_profile"));
+        FirebaseUser user = pegaUsuarioLogado();
+        if (user == null) {
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email","public_profile"));
+        }
     }
 }

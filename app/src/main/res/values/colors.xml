@@ -9,4 +9,5 @@
     <color name="gray">#9D9FA2</color>
     <color name="colorTextButton">@color/white</color>
     <color name="colorTextQuestion">@color/black</color>
+    <color name="background_login">#4798e4</color>
 </resources>

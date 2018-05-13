@@ -47,18 +47,6 @@
         android:layout_height="match_parent"
         android:layout_weight="2">
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/login_google_button"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp" />
-
-        <Button
-            android:id="@+id/login_facebook_button"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:text="Face"
-            android:layout_marginTop="10dp"/>
-
         <Button
             android:id="@+id/logout_button"
             android:layout_width="match_parent"
