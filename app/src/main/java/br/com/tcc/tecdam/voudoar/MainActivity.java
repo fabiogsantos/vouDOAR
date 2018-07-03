@@ -80,9 +80,9 @@ public class MainActivity extends AppCompatActivity
 
         configuraNavigatorBar();
 
-        //configuraLoginGoogle();
+        configuraLoginGoogle();
 
-        //configuraLoginFacebook();
+        configuraLoginFacebook();
 
         configuraLogout();
 
