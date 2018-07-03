@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "303342344584-meqo2sos6ki3u2h2npg5jot8v2fb7g2n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.tcc.tecdam.voudoar",
+            "certificate_hash": "533d7227191a172dbeeae7aa9b886177e810a2bb"
+          }
+        },
+        {
           "client_id": "303342344584-9jt20tb3n1ussajui5cvvb9rq1rj8rcl.apps.googleusercontent.com",
           "client_type": 3
         }
