@@ -10,4 +10,6 @@
     <color name="colorTextButton">@color/white</color>
     <color name="colorTextQuestion">@color/black</color>
     <color name="background_login">#4798e4</color>
+    <color name="background_blue_facebook">#3B5998</color>
+    <color name="background_vemelho_google">#d34836</color>
 </resources>

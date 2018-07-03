@@ -15,8 +15,8 @@ public class VouDoarApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Toast.makeText(getApplicationContext(),"Facebook modo Debug",Toast.LENGTH_SHORT).show();
         if (BuildConfig.DEBUG) {
+            Toast.makeText(getApplicationContext(),"Facebook modo Debug",Toast.LENGTH_SHORT).show();
             FacebookSdk.setIsDebugEnabled(true);
             FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
         }

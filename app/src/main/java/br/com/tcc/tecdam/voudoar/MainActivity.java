@@ -80,13 +80,13 @@ public class MainActivity extends AppCompatActivity
 
         configuraNavigatorBar();
 
-        configuraLoginGoogle();
+        //configuraLoginGoogle();
 
-        configuraLoginFacebook();
+        //configuraLoginFacebook();
 
         configuraLogout();
 
-        chamaListaCampanha();
+        //chamaListaCampanha();
     }
 
     @Override
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void configuraNavigatorBar() {
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.getHeaderView(0);
     }
@@ -133,7 +133,9 @@ public class MainActivity extends AppCompatActivity
         callbackManager = CallbackManager.Factory.create();
 
         Button loginButtonFacebook = headerView.findViewById(R.id.login_facebook_button);
-        loginButtonFacebook.setOnClickListener(this);
+        if (loginButtonFacebook != null) {
+            loginButtonFacebook.setOnClickListener(this);
+        }
 
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -188,8 +190,10 @@ public class MainActivity extends AppCompatActivity
 
         // Set the dimensions of the sign-in button.
         SignInButton loginGoogleButton = headerView.findViewById(R.id.login_google_button);
-        loginGoogleButton.setSize(SignInButton.SIZE_ICON_ONLY);
-        loginGoogleButton.setOnClickListener(this);
+        if (loginGoogleButton != null) {
+            loginGoogleButton.setSize(SignInButton.SIZE_ICON_ONLY);
+            loginGoogleButton.setOnClickListener(this);
+        }
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
