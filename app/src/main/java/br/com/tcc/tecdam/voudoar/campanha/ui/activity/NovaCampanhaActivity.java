@@ -2,8 +2,6 @@ package br.com.tcc.tecdam.voudoar.campanha.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,8 +12,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Toast;
-
-import java.io.Serializable;
 
 import br.com.tcc.tecdam.voudoar.R;
 import br.com.tcc.tecdam.voudoar.campanha.contrato.CampanhaMVP;
